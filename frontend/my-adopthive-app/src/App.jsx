@@ -46,6 +46,7 @@ import { UserContext } from './UserContext';
 import {BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 
 
+
 function App() {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('user');
@@ -68,6 +69,7 @@ function App() {
             <Route path="/" element={ user ? < Home /> : <SignIn />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="/Home" element={user && <Home />} />
           </Routes>
         </Router>
       </UserContext.Provider>

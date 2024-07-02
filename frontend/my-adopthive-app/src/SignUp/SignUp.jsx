@@ -99,15 +99,20 @@ import React, { useState, useContext } from 'react';
 import './SignUp.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignUp = () => {
-  const [firstname, setFirstName] = useState('');
-  const [middlename, setMiddleName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [FirstName, setFirstName] = useState('');
+  const [MiddleName, setMiddleName] = useState('');
+  const [LastName, setLastName] = useState('');
+  const [Username, setUsername] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [Role, setRole] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -115,17 +120,17 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5173/users', {
+      const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ firstname, middlename, lastname, username, password, confirmPassword }),
+        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, Role }),
         credentials: 'include',
       });
-    //   const data = await response.json();
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
+        // const data = await response.json();
         const SignedInUser = data.user;
         console.log('Sign Up sucessful');
 
@@ -135,6 +140,7 @@ const SignUp = () => {
         setUsername('');
         setPassword('');
         setConfirmPassword('');
+        setRole('');
 
         updateUser(SignedInUser);
         navigate('/');
@@ -163,9 +169,9 @@ const SignUp = () => {
         <form onSubmit={handleSignUp}>
           <input
             type="text"
-            id="firstName"
+            id="FirstName"
             placeholder="FirstName"
-            value={firstname}
+            value={FirstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
@@ -173,7 +179,7 @@ const SignUp = () => {
             type="text"
             id="MiddleName"
             placeholder="MiddleName"
-            value={middlename}
+            value={MiddleName}
             onChange={(e) => setMiddleName(e.target.value)}
             required
           />
@@ -181,7 +187,7 @@ const SignUp = () => {
             type="text"
             id="LastName"
             placeholder="LastName"
-            value={lastname}
+            value={LastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
@@ -189,7 +195,7 @@ const SignUp = () => {
             type="text"
             id="Username"
             placeholder="Username"
-            value={username}
+            value={Username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -197,20 +203,38 @@ const SignUp = () => {
             type="password"
             id="Password"
             placeholder="Password"
-            value={password}
+            value={Password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              onClick={() => setShowPassword(!showPassword)}
+            />
           <input
             type="password"
             id="ConfirmPassword"
             placeholder="Confirm Password"
-            value={confirmPassword}
+            value={ConfirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          <FontAwesomeIcon
+              icon={showConfirmPassword ? faEyeSlash : faEye}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            />
+          <label style={{ color: 'white' }}>Role</label>
+          <select
+            name="Role"
+            value={Role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            <option value="AP">Adoptive Parent</option>
+            <option value="OS">Orphanage Staff</option>
+          </select>
           {/* {error && <div className="error">{error}</div>} */}
-          <p>
+          <p className='already-have-account'>
             Already have an account?{' '}
             <a className="signin-link" onClick={navigateToSignIn}>
               Sign In

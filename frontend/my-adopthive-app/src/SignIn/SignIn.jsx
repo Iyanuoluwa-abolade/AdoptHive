@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import './SignIn.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignIn = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +11,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { updateUser } = useContext(UserContext);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -57,7 +60,7 @@ const SignIn = () => {
           <div className="inputs">
             <input
               type="text"
-              id="username"
+              id="Username"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -65,15 +68,19 @@ const SignIn = () => {
             />
             <input
               type="password"
-              id="password"
+              id="Password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                onClick={() => setShowPassword(!showPassword)}
+              />
           </div>
           {error && <div className="error">{error}</div>}
-          <p>
+          <p className='new-to-adopthive'>
             New to AdoptHive?{' '}
             <Link to="/signup" className="signup-link">
               Sign up
