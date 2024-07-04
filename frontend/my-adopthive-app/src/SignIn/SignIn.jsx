@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignIn = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [Username, setUsername] = useState('');
+  const [Password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { updateUser } = useContext(UserContext);
@@ -17,7 +17,7 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    if (!username || !password) {
+    if (!Username || !Password) {
       setError('Please enter a username and password');
       return;
     }
@@ -25,22 +25,18 @@ const SignIn = () => {
     try {
       setLoading(true);
 
-      const response = await fetch('http://localhost:5173/users/signin', {
+      const response = await fetch(`http://localhost:3000/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ Username, Password }),
         credentials: 'include',
       });
 
       if (response.ok) {
-        const data = await response.json();
-        const SignedInUser = data.user;
-
-        updateUser(SignedInUser);
-
-        navigate('/');
+        const user = await response.json();
+        navigate('/Home');
       } else {
         setError('Error signing in');
         navigate('/Home');
@@ -52,6 +48,10 @@ const SignIn = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <div className="sign-in-page">
       <div className="sign-in">
@@ -62,21 +62,23 @@ const SignIn = () => {
               type="text"
               id="Username"
               placeholder="Username"
-              value={username}
+              value={Username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <input
-              type="password"
-              id="Password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <FontAwesomeIcon
+            <div className='password-container'></div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="Password"
+                placeholder="Password"
+                value={Password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <FontAwesomeIcon
                 icon={showPassword ? faEyeSlash : faEye}
-                onClick={() => setShowPassword(!showPassword)}
+                className="toggle-password"
+                onClick={togglePasswordVisibility}
               />
           </div>
           {error && <div className="error">{error}</div>}

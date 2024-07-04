@@ -1,0 +1,38 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    position: relative;
+}
+
+.main-page h1 {
+    font-size: 80px;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.main-page p {
+    font-size: 25px;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.get-started-container {
+    position: absolute;
+    bottom: 20px;
+}
+
+.get-started-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: rgb(58, 21, 21);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    bottom: 20px;
+    cursor: pointer;
+    text-decoration: none; 
+}

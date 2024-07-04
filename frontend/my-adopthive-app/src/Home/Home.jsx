@@ -1,23 +1,17 @@
-// import './Home.css';
-// import React from 'react';
-// import { useUserContext } from '../UserContext.jsx';
+import { UserContext } from "../UserContext";
+import { useContext, useState } from "react";
+import "./Home.css";
 
-// const Home = () => {
-//     const { user } = useUserContext();
 
-//     return (
-//         <div>
-//             <h1>Welcome, {user.username}!</h1>
+function Home() {
+  const { user, updateUser } = useContext(UserContext);
+  console.log(user)
 
-//         </div>
-//     );
-// }
-
-// export default Home;
-
-function Home () {
-    return <>Welcome</>
+  return (
+    <div className="home">
+      <h1>Welcome back, {user.newUser.FirstName}!</h1>
+    </div>
+  );
 }
 
 export default Home;
-

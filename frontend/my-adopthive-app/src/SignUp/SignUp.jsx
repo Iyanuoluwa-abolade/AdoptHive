@@ -1,100 +1,3 @@
-// import React, { useState, useContext } from 'react';
-// import './SignUp.css'; // Import your CSS for styling
-// import { Link, useNavigate } from 'react-router-dom';
-// import { UserContext } from '../UserContext.js';
-
-// const SignUp = () => {
-//     const [firstname, setFirstName] = useState('');
-//     const [middlename, setMiddleName] = useState('');
-//     const [lastname, setLastName] = useState('');
-//     const [username, setUsername] = useState('');
-//     const [password, setPassword] = useState('');
-
-//     const { updateUser } = useContext(UserContext);
-
-//     const navigate = useNavigate();
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             const response = await fetch('http://localhost:5173/users`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify({ username, password }),
-//                 credentials: 'include',
-//             });
-
-//             if ( response.ok) {
-//                 const data = await response.json();
-//                 const SignedInUser = data.user;
-
-//                 console.log("Sign Up sucessful");
-
-//                 setFirstName('');
-//                 setMiddleName('');
-//                 setLastName('');
-//                 setUsername('');
-//                 setPassword('');
-
-//                 updateUser(SignedInUser);
-
-//                 navigate('/');
-//             } else {
-//                 alert('Sign Up failed');
-//             }
-
-//         } catch (error) {
-//             alert('Sign in failed:' + error);
-//         }
-//     }
-
-//     return (
-//         <div className="sign-in-container">
-//             <form className="sign-in-form" onSubmit={handleSignIn}>
-//                 <h2>Sign in to AdoptHive</h2>
-//                 <div className="form-control">
-//           {/* <label htmlFor="username">Username</label> */}
-//                     <input
-//                         type="text"
-//                         id="username"
-//                         placeholder="Username"
-//                         value={username}
-//                         onChange={(e) => setUsername (e.target.value)}
-//                         required
-//                     />
-//                 </div>
-//                 <div className="form-control">
-//           {/* <label htmlFor="password">Password</label> */}
-//                     <input
-//                         type="password"
-//                         id="password"
-//                         placeholder='Password'
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                         required
-//                     />
-//                 </div>
-//                 <div className="form-actions">
-//                     <button type="submit">Sign In</button>
-//                     <a href="#" onClick={() => console.log('Forgot password clicked')}>
-//                         Forgot Password?
-//                     </a>
-//                 </div>
-//                 </form>
-//                 <div className="new-to-adopthive">
-//                     <p>New to AdoptHive? <Link to="/SignUp">Sign Up now</Link></p>
-
-//                 </div>
-
-//         </div>
-//     );
-// };
-
-// export default SignUp;
-
 import React, { useState, useContext } from 'react';
 import './SignUp.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -110,7 +13,7 @@ const SignUp = () => {
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [Role, setRole] = useState("");
+  const [role, setrole] = useState("AP");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateUser } = useContext(UserContext);
@@ -120,45 +23,42 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
+      console.log("role: ", role)
       const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, Role }),
+        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role }),
         credentials: 'include',
       });
-      const data = await response.json();
+      console.log("response", response)
       if (response.ok) {
-        // const data = await response.json();
-        const SignedInUser = data.user;
+        const SignedInUser =  await response.json();
         console.log('Sign Up sucessful');
 
-        setFirstName('');
-        setMiddleName('');
-        setLastName('');
-        setUsername('');
-        setPassword('');
-        setConfirmPassword('');
-        setRole('');
 
         updateUser(SignedInUser);
-        navigate('/');
+        navigate('/Home');
       } else {
         setError('Sign Up failed');
-      }
-      if (data.error) {
-        setError(data.error);
       }
 
     } catch (error) {
       console.log(error);
-    //   setError('Sign up failed: ' + error.message);
     }
   }
 
   function navigateToSignIn() {
     navigate('/SignIn');
+  }
+
+  function togglePasswordVisibility(){
+    setShowPassword(!showPassword);
+  }
+
+  function toggleConfirmPasswordVisibility(){
+    setShowConfirmPassword(!showConfirmPassword);
   }
 
   return (
@@ -199,41 +99,47 @@ const SignUp = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <input
-            type="password"
-            id="Password"
-            placeholder="Password"
-            value={Password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <FontAwesomeIcon
-              icon={showPassword ? faEyeSlash : faEye}
-              onClick={() => setShowPassword(!showPassword)}
+          <div className='password-container'>
+            <input
+              type={showPassword ? 'text' :'password'}
+              id="Password"
+              placeholder="Password"
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-          <input
-            type="password"
-            id="ConfirmPassword"
-            placeholder="Confirm Password"
-            value={ConfirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <FontAwesomeIcon
-              icon={showConfirmPassword ? faEyeSlash : faEye}
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            <FontAwesomeIcon
+              icon={showPassword ? faEye : faEyeSlash}
+              className="toggle-password"
+              onClick={togglePasswordVisibility}
             />
+          </div>
+          <div className='password-container'>
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="ConfirmPassword"
+              placeholder="Confirm Password"
+              value={ConfirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showConfirmPassword ? faEye : faEyeSlash}
+              className="toggle-password"
+              onClick={toggleConfirmPasswordVisibility}
+            />
+          </div>
           <label style={{ color: 'white' }}>Role</label>
           <select
-            name="Role"
-            value={Role}
-            onChange={(e) => setRole(e.target.value)}
+            name="role"
+            value={role}
+            onChange={(e) => setrole(e.target.value)}
             required
           >
             <option value="AP">Adoptive Parent</option>
             <option value="OS">Orphanage Staff</option>
           </select>
-          {/* {error && <div className="error">{error}</div>} */}
+          {error && <div className="error">{error}</div>}
           <p className='already-have-account'>
             Already have an account?{' '}
             <a className="signin-link" onClick={navigateToSignIn}>
