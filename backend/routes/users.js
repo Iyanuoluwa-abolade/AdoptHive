@@ -3,15 +3,14 @@ import bcrypt from "bcrypt";
 import env from "dotenv";
 import { PrismaClient } from "@prisma/client";
 
-
 const router = express.Router();
-const port = 3000;
+const port = 3001;
 const prisma = new PrismaClient();
 const saltRounds = 10;
 env.config();
 
 router.post("/signup", async (req, res) => {
-    console.log(req.body)
+
 
 
     const { FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role } = req.body;
@@ -27,8 +26,9 @@ router.post("/signup", async (req, res) => {
                 }
             });
             if (existingUser) {
-
+                return res.status(400).json({ error: "Username already taken" });
             }
+
 
             const hashedPassword = await bcrypt.hash(Password, saltRounds);
 
@@ -45,13 +45,17 @@ router.post("/signup", async (req, res) => {
                 },
             });
 
+
+
             res.status(201).json({ newUser });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: err.message });
+            if (err) {
+                res.status(500).json({ message: err.message });
+            }
         }
     }
 });
+
 
 router.post("/signin", async (req, res) => {
     const { Username, Password } = req.body;
@@ -67,18 +71,14 @@ router.post("/signin", async (req, res) => {
         const isMatch = await bcrypt.compare(Password, user.Password);
         if (!isMatch) {
             return res.status(400).json({ error: "Invalid credentials" });
+        } else {
+            res.status(200).json({ user });
         }
-            else{
-                res.status(200).json({ user });
-            }
-
-
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: err.message });
+        if (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
 });
-
-
 
 export default router;
