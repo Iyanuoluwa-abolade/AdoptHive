@@ -28,10 +28,10 @@ function App() {
       <UserContext.Provider value={{user,updateUser}} >
         <Router>
           <Routes>
-            <Route path="/" element={ user ? < Home /> : <SignIn />} />
+            <Route path="/mainpage" element={ user ? <MainPage /> : <SignIn />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="/Home" element={user && <Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/Home" element={user ? <Home /> : <SignIn />} />
           </Routes>
         </Router>
       </UserContext.Provider>

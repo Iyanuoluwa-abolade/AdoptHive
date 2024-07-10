@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 
 
 const router = express.Router();
-const port = 3000;
 const prisma = new PrismaClient();
 const saltRounds = 10;
 env.config();
@@ -73,5 +72,3 @@ router.post("/signin", async (req, res) => {
 
 
 export default router;
-
-
