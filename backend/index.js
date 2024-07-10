@@ -1,35 +1,3 @@
-// const { PrismaClient } = require('@prisma/client')
-// const prisma = new PrismaClient()
-// const cors = require('cors')
-// const express = require('express')
-// const app = express();
-// app.use(express.json())
-// app.use(cors());
-// require("dotenv").config();
-// const bcrypt = require('bcrypt');
-// const saltRounds = 14;
-
-
-// app.post("/users", async (req, res) => {
-//     const { FirstName, MiddleName, LastName, Password, Role } = req.body;
-//     try {
-//         const newUser = await prisma.user.create({
-//             data: {
-//                 FirstName,
-//                 MiddleName,
-//                 LastName,
-//                 Password: bcrypt.hashSync(Password, saltRounds),
-//                 Role,
-//             },
-//         });
-//         res.json(newUser);
-
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ error: " Internal Server Error" });
-//     }
-// });
-
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -41,6 +9,7 @@ import SequelizeStoreInit from 'connect-session-sequelize';
 
 const app = express();
 const port = 3000;
+const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000
 env.config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -69,7 +38,7 @@ app.use(
         cookie: {
             sameSite: 'false',
             secure: false,
-            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + YEAR_TO_MILLISECOND_CONVERSION_FACTOR),
         },
     })
 );
@@ -82,5 +51,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    
 });
