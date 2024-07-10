@@ -7,5 +7,9 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: antiquewhite;
+  background-image: url(https://images.pexels.com/photos/9873934/pexels-photo-9873934.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
 }
+

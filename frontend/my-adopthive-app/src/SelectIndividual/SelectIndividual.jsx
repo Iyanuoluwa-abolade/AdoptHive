@@ -1,1 +1,0 @@
-import './SelectIndividual.css'

@@ -20,4 +20,10 @@ model user {
   LastName    String
   Username    String @unique
   Password    String
+  Role        Role
+}
+
+enum Role {
+  AP //Adoptive Parent
+  OS //Orphange Staff
 }
