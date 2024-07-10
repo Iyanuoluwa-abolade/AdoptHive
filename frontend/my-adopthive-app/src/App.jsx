@@ -2,7 +2,6 @@ import Home from './Home/Home';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Footer from './Footer/Footer';
-
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
 import { UserContext } from './UserContext';
