@@ -5,8 +5,8 @@ import SideBar from '../SideBar/SideBar';
 import './Home.css';
 
 function Home() {
-  const { user, updateUser } = useContext(UserContext);
-  
+  const { user } = useContext(UserContext);
+
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   function toggleSideBar()  {
