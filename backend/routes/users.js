@@ -11,7 +11,7 @@ const saltRounds = 10;
 env.config();
 
 router.post("/signup", async (req, res) => {
-    console.log(req.body)
+
 
 
     const { FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role } = req.body;
@@ -27,7 +27,7 @@ router.post("/signup", async (req, res) => {
                 }
             });
             if (existingUser) {
-
+                return res.status(400).json({ error: "Username already taken" });
             }
 
             const hashedPassword = await bcrypt.hash(Password, saltRounds);
@@ -47,8 +47,11 @@ router.post("/signup", async (req, res) => {
 
             res.status(201).json({ newUser });
         } catch (err) {
-            console.error(err);
+
             res.status(500).json({ message: err.message });
+            if (err) {
+                res.status(500).json({ message: err.message });
+            }
         }
     }
 });
@@ -74,8 +77,9 @@ router.post("/signin", async (req, res) => {
 
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: err.message });
+        if (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
 });
 

@@ -23,7 +23,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      console.log("role: ", role)
+
       const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
@@ -32,10 +32,9 @@ const SignUp = () => {
         body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role }),
         credentials: 'include',
       });
-      console.log("response", response)
+
       if (response.ok) {
         const SignedInUser =  await response.json();
-        console.log('Sign Up sucessful');
 
 
         updateUser(SignedInUser);
@@ -45,7 +44,7 @@ const SignUp = () => {
       }
 
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
