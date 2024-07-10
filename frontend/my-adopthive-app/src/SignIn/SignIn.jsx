@@ -17,6 +17,7 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
+
     if (!Username || !Password) {
       setError('Please enter a username and password');
       return;
@@ -25,7 +26,7 @@ const SignIn = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(`http://localhost:3000/signin`, {
+      const response = await fetch(`http://localhost:3001/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,6 +37,9 @@ const SignIn = () => {
 
       if (response.ok) {
         const user = await response.json();
+        updateUser(user.user)
+        
+
         navigate('/Home');
       } else {
         setError('Error signing in');
