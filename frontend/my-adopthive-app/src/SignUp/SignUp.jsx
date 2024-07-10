@@ -45,7 +45,7 @@ const SignUp = () => {
       }
 
     } catch (error) {
-      
+
     }
   }
 
@@ -64,7 +64,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <div className="sign-up-form">
-        <h2>Welcome to AdoptHive</h2>
+        <h2>Sign Up</h2>
         <p className="sign-up-text">Sign Up</p>
         <form onSubmit={handleSignUp}>
           <input

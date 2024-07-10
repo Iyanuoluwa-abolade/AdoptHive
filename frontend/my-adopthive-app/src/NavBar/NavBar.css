@@ -1,11 +1,12 @@
 .navbar {
     display: flex;
     width: 950px;
-    justify-content: space-between;
+    justify-content: space-evenly;
     color: white;
     padding: 1rem;
     position: fixed;
     top: 0;
+    margin-top: 5px;
     z-index: 1;
 }
 
@@ -23,6 +24,8 @@
 
 .user-profile {
     font-size: 18px;
+    margin-left: 650px;
+    
 }
 
 .user-profile i {
@@ -39,9 +42,9 @@
         align-items: stretch;
     }
 
-    .navbar-title {
+    /* .navbar-title {
         text-align: center;
-    }
+    } */
 
     .toogle-btn {
         margin-top: 10px;

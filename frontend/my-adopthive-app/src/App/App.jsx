@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Header from '../Header/Header';
 import Footer from '../Footer/Footer.jsx';
 import SignIn from '../SignIn/SignIn.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <UserContext.Provider value={{ user, updateUser }}>
         <Router>
           <Routes>

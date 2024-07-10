@@ -15,12 +15,12 @@ function Navbar(props) {
 
     return (
         <div className='navbar'>
-            <div onClick={props.toggleSideBar} className='toggle-btn'>
+            {/* <div onClick={props.toggleSideBar} className='toggle-btn'>
                 <PiSidebarDuotone />
-            </div>
-            <div className='navbar-title'>
-                <h1>AdoptHive</h1>
-            </div>
+            </div> */}
+            {/* <div className='navbar-title'> */}
+                {/* <h1>AdoptHive</h1> */}
+            {/* </div> */}
             {showProfile && <Profile /> }
             <div className='user-profile'>
                 <i onClick={handleProfileDisplay} className="fa-solid fa-user"></i>

@@ -1,0 +1,13 @@
+.header {
+    background-color: rgb(58, 21, 21);
+    color: white;
+    text-align: left;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    
+  }
+
+  .header h1 {
+    margin: 0;
+    font-size: 2em;
+  }

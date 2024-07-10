@@ -38,7 +38,7 @@ const SignIn = () => {
       if (response.ok) {
         const user = await response.json();
         updateUser(user.user)
-        
+
 
         navigate('/Home');
       } else {
@@ -59,7 +59,7 @@ const SignIn = () => {
   return (
     <div className="sign-in-page">
       <div className="sign-in">
-        <h2>AdoptHive</h2>
+        <h2>Sign In</h2>
         <form onSubmit={handleSignIn}>
           <div className="inputs">
             <input
