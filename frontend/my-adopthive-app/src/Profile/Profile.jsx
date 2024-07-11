@@ -6,21 +6,15 @@ import "./Profile.css";
 
 function Profile() {
     const { user, updateUser } = useContext(UserContext);
-    const navigate = useNavigate();
 
+
+    const navigate = useNavigate();
     function handleLogout() {
         updateUser(null);
         localStorage.removeItem("user");
         navigate("/signin");
     }
 
-    function setRole(role) {
-        if (role === "AP") {
-            return "Adoptive Parent";
-        } else if (role === "OS") {
-            return "Orphanage Staff";
-        }
-    }
 
 
     return (

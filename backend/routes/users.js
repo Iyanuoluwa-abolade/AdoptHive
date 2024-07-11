@@ -4,7 +4,6 @@ import env from "dotenv";
 import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();
-const port = 3001;
 const prisma = new PrismaClient();
 const saltRounds = 10;
 env.config();

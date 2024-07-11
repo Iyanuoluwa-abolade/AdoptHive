@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer.jsx';
@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from '../MainPage/MainPage';
 import AdopteesProfile from '../AdopteesProfile/AdopteesProfile'
 import Home from '../Home/Home';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 function App() {

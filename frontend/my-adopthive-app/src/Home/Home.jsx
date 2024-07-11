@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../UserContext';
 import NavBar from '../NavBar/NavBar';
 import SideBar from '../SideBar/SideBar';
@@ -11,7 +11,7 @@ function Home() {
 
   function toggleSideBar()  {
     setIsSideBarOpen(!isSideBarOpen);
-  };
+  }
 
   return (
     <div className="home-container">

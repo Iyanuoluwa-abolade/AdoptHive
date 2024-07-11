@@ -1,25 +1,24 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../UserContext';
-import './SideBar.css';
-import { PiSidebarDuotone } from 'react-icons/pi';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from 'prop-types';
 
-function SideBar(props) {
-    const { user, updateUser } = useContext(UserContext);
-    const [showProfile, setShowProfile] = useState(false);
+import './SideBar.css';
+
+
+function SideBar({isOpen}) {
+
     const [selectedItem, setSelectedItem] = useState(null);
 
-    function handleProfileDisplay () {
-        setShowProfile(!showProfile);
-    }
+
 
     function handleItemClick(item) {
         setSelectedItem(item);
     }
 
+
+
     return (
-        <div className={`sidebar ${props.isOpen ? "open" : ""}`}>
+        <div className={`sidebar ${isOpen ? "open" : ""}`}>
             <div className="sidebar-items">
                 <ul>
                     <li className={selectedItem === "Home" ? "selected" : "" }>
@@ -45,5 +44,9 @@ function SideBar(props) {
         </div>
     );
 }
+
+SideBar.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+};
 
 export default SideBar;

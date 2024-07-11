@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AdopteesProfile.css'
 
 const AdopteesProfile = () => {
@@ -7,14 +7,14 @@ const AdopteesProfile = () => {
   useEffect(() => {
     const fetchAdoptee = async () => {
       try {
-        const response = await fetch('http://localhost:3001/adoptee-profile'); // Replace with your backend URL
+        const response = await fetch('http://localhost:3001/adoptee-profile');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
         setAdoptee(data);
       } catch (error) {
-
+        return (error)
       }
     };
 
