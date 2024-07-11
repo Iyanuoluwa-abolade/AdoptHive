@@ -27,3 +27,17 @@ enum Role {
   AP //Adoptive Parent
   OS //Orphange Staff
 }
+
+model Adoptee {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  age         Int
+  birthdate   String
+  photoUrl    String
+  background  String
+  interests   String
+  education   String
+  traits      String
+  dreams      String
+}

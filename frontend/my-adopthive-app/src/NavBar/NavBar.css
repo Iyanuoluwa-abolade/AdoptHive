@@ -1,0 +1,50 @@
+.navbar {
+    display: flex;
+    width: 950px;
+    justify-content: space-evenly;
+    color: white;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    margin-top: 5px;
+    z-index: 1;
+}
+
+.navbar .toggle-btn {
+    cursor: pointer;
+    font-size: 25px;
+    display: block;
+}
+
+.navbar-title h1{
+    font-size: 27px;
+
+}
+
+
+.user-profile {
+    font-size: 18px;
+    margin-left: 650px;
+
+}
+
+.user-profile i {
+    font-size: 25px;
+    margin-right: 20px;
+    color: rgb(222, 217, 217);
+
+}
+
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+
+    .toogle-btn {
+        margin-top: 10px;
+    }
+}

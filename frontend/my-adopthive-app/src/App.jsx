@@ -1,5 +1,5 @@
 import Home from './Home/Home';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Footer from './Footer/Footer';
 import SignIn from './SignIn/SignIn';

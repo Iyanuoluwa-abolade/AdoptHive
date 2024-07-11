@@ -6,6 +6,9 @@
     height: 100vh;
     text-align: center;
     position: relative;
+    background-image: url(https://images.pexels.com/photos/9873934/pexels-photo-9873934.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .main-page h1 {
@@ -22,7 +25,7 @@
 
 .get-started-container {
     position: absolute;
-    bottom: 20px;
+    bottom: 150px;
 }
 
 .get-started-btn {
@@ -34,5 +37,5 @@
     border-radius: 5px;
     bottom: 20px;
     cursor: pointer;
-    text-decoration: none; 
+    text-decoration: none;
 }

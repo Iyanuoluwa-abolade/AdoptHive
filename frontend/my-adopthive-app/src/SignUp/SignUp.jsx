@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import './SignUp.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -38,6 +38,7 @@ const SignUp = () => {
         const SignedInUser =  await response.json();
 
 
+
         updateUser(SignedInUser);
         navigate('/Home');
       } else {
@@ -45,6 +46,9 @@ const SignUp = () => {
       }
 
     } catch (error) {
+
+      return(error)
+
 
     }
   }
@@ -64,7 +68,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <div className="sign-up-form">
-        <h2>Welcome to AdoptHive</h2>
+        <h2>Sign Up</h2>
         <p className="sign-up-text">Sign Up</p>
         <form onSubmit={handleSignUp}>
           <input

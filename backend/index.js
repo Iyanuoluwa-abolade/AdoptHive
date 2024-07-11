@@ -4,11 +4,12 @@ import bodyParser from 'body-parser';
 import env from 'dotenv';
 import session from 'express-session';
 import router from './routes/users.js';
+import routing from './routes/Adoptees.js';
 import Sequelize  from 'sequelize';
 import SequelizeStoreInit from 'connect-session-sequelize';
 
 const app = express();
-const port = 3000;
+const port = 3001;
 const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000
 env.config();
 
@@ -45,6 +46,7 @@ app.use(
 
 sessionStore.sync();
 app.use(router);
+app.use(routing);
 
 app.get("/", (req, res) => {
     res.send("Hello World");
