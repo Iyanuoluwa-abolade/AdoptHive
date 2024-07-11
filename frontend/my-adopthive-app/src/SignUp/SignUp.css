@@ -45,6 +45,19 @@
 }
 
 
+  .password-container {
+    position: relative;
+    color: rgb(58, 21, 21);
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
 .sign-up-form button {
     background-color: rgb(58, 21, 21);
     color: #fff;

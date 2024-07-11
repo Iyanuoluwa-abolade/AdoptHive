@@ -31,7 +31,7 @@ app.use(
 );
 app.use(
     session({
-        secret: 'SECRET',
+        secret: 'TOPSECRETWORD',
         resave: false,
         saveUninitialized: false,
         store: sessionStore,
@@ -51,5 +51,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-    
+
 });

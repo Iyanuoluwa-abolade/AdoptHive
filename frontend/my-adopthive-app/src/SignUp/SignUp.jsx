@@ -13,7 +13,7 @@ const SignUp = () => {
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [Role, setRole] = useState("");
+  const [role, setrole] = useState("AP");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateUser } = useContext(UserContext);
@@ -23,35 +23,25 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
+
       const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, Role }),
+        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role }),
         credentials: 'include',
       });
-      const data = await response.json();
+
       if (response.ok) {
 
-        const SignedInUser = data.user;
+        const SignedInUser =  await response.json();
 
-
-        setFirstName('');
-        setMiddleName('');
-        setLastName('');
-        setUsername('');
-        setPassword('');
-        setConfirmPassword('');
-        setRole('');
 
         updateUser(SignedInUser);
-        navigate('/');
+        navigate('/Home');
       } else {
         setError('Sign Up failed');
-      }
-      if (data.error) {
-        setError(data.error);
       }
 
     } catch (error) {
@@ -61,6 +51,14 @@ const SignUp = () => {
 
   function navigateToSignIn() {
     navigate('/SignIn');
+  }
+
+  function togglePasswordVisibility(){
+    setShowPassword(!showPassword);
+  }
+
+  function toggleConfirmPasswordVisibility(){
+    setShowConfirmPassword(!showConfirmPassword);
   }
 
   return (
@@ -101,41 +99,49 @@ const SignUp = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <input
-            type="password"
-            id="Password"
-            placeholder="Password"
-            value={Password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <FontAwesomeIcon
-              icon={showPassword ? faEyeSlash : faEye}
-              onClick={() => setShowPassword(!showPassword)}
+          <div className='password-container'>
+            <input
+              type={showPassword ? 'text' :'password'}
+              id="Password"
+              placeholder="Password"
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-          <input
-            type="password"
-            id="ConfirmPassword"
-            placeholder="Confirm Password"
-            value={ConfirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <FontAwesomeIcon
-              icon={showConfirmPassword ? faEyeSlash : faEye}
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            <FontAwesomeIcon
+              icon={showPassword ? faEye : faEyeSlash}
+              className="toggle-password"
+              onClick={togglePasswordVisibility}
             />
+          </div>
+          <div className='password-container'>
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="ConfirmPassword"
+              placeholder="Confirm Password"
+              value={ConfirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showConfirmPassword ? faEye : faEyeSlash}
+              className="toggle-password"
+              onClick={toggleConfirmPasswordVisibility}
+            />
+          </div>
           <label style={{ color: 'white' }}>Role</label>
           <select
-            name="Role"
-            value={Role}
-            onChange={(e) => setRole(e.target.value)}
+            name="role"
+            value={role}
+            onChange={(e) => setrole(e.target.value)}
             required
           >
             <option value="AP">Adoptive Parent</option>
             <option value="OS">Orphanage Staff</option>
           </select>
-          
+
+          {error && <div className="error">{error}</div>}
+
           <p className='already-have-account'>
             Already have an account?{' '}
             <a className="signin-link" onClick={navigateToSignIn}>
