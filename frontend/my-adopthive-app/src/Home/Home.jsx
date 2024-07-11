@@ -7,11 +7,14 @@ import './Home.css';
 function Home() {
   const { user } = useContext(UserContext);
 
+
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   function toggleSideBar()  {
     setIsSideBarOpen(!isSideBarOpen);
   }
+
+
 
   return (
     <div className="home-container">

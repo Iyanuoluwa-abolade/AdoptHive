@@ -34,6 +34,7 @@ const SignUp = () => {
       });
 
       if (response.ok) {
+
         const SignedInUser =  await response.json();
 
 
@@ -45,7 +46,10 @@ const SignUp = () => {
       }
 
     } catch (error) {
+
       return(error)
+
+
     }
   }
 
@@ -139,7 +143,9 @@ const SignUp = () => {
             <option value="AP">Adoptive Parent</option>
             <option value="OS">Orphanage Staff</option>
           </select>
+
           {error && <div className="error">{error}</div>}
+
           <p className='already-have-account'>
             Already have an account?{' '}
             <a className="signin-link" onClick={navigateToSignIn}>
