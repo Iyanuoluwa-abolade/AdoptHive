@@ -4,14 +4,19 @@ import bodyParser from 'body-parser';
 import env from 'dotenv';
 import session from 'express-session';
 import router from './routes/users.js';
-import routing from './routes/Adoptees.js';
+import adoptersRoute from './routes/Adopters.js'
+import adopteesRoute from './routes/Adoptees.js';
 import Sequelize  from 'sequelize';
 import SequelizeStoreInit from 'connect-session-sequelize';
+import {galeShapley} from './matchAlgorithm.js';
+
 
 const app = express();
 const port = 3001;
 const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000
 env.config();
+
+
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
@@ -21,6 +26,8 @@ const SequelizeStore = SequelizeStoreInit(session.Store);
 const sessionStore = new SequelizeStore({
     db: sequelize,
 });
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -45,9 +52,16 @@ app.use(
 );
 
 sessionStore.sync();
-app.use(router);
-app.use(routing);
 
+
+app.use(router);
+app.use(adopteesRoute);
+app.use(adoptersRoute);
+
+app.get('/matches', async (req, res) => {
+    const matches = await galeShapley();
+    res.json(matches);
+  });
 app.get("/", (req, res) => {
     res.send("Hello World");
 });

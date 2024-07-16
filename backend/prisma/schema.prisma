@@ -1,8 +1,8 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs: (link unavailable)
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Try Prisma Accelerate: (link unavailable)
 
 generator client {
   provider = "prisma-client-js"
@@ -14,30 +14,80 @@ datasource db {
 }
 
 model user {
-  id          Int @default(autoincrement())
-  FirstName   String
-  MiddleName  String
-  LastName    String
-  Username    String @unique
-  Password    String
-  role        Role
+  id        Int      @unique @default(autoincrement())
+  FirstName String
+  LastName  String
+  Username  String   @unique
+  Password  String
+  role      Role
+  Adopter   Adopter?
+  Adoptee   Adoptee?
+}
+
+enum Sex {
+  Female
+  Male
 }
 
 enum Role {
-  AP //Adoptive Parent
-  OS //Orphange Staff
+  Adopter //Adopter
+  Adoptee //Adoptee
+}
+
+model Adopter {
+  id                 Int                  @id @default(autoincrement())
+  firstName          String
+  lastName           String
+  age                Int
+  sex                Sex
+  status             String
+  photoUrl           String
+  background         String
+  UserId             Int                  @unique
+  User               user                 @relation(fields: [UserId], references: [id])
+  adoptee            Adoptee?             @relation("AdopterMatch", fields: [id], references: [id])
+  AdopterPreferences AdopterPreferences[]
+  AdopteePreferences AdopteePreferences[]
 }
 
 model Adoptee {
-  id          Int      @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  age         Int
-  birthdate   String
-  photoUrl    String
-  background  String
-  interests   String
-  education   String
-  traits      String
-  dreams      String
+  id                 Int                  @id @default(autoincrement())
+  firstName          String
+  lastName           String
+  age                Int
+  sex                Sex
+  birthdate          String
+  photoUrl           String
+  background         String
+  interests          String
+  education          String
+  traits             String
+  dreams             String
+  UserId             Int                  @unique
+  User               user                 @relation(fields: [UserId], references: [id])
+  adopter            Adopter?             @relation("AdopterMatch")
+  AdopteePreferences AdopteePreferences[]
+  AdopterPreferences AdopterPreferences[]
+}
+
+model AdopterPreferences {
+  id        Int     @id @default(autoincrement())
+  adopterId Int
+  adopteeId Int
+  adopter   Adopter @relation(fields: [adopterId], references: [id])
+  adoptee   Adoptee @relation(fields: [adopteeId], references: [id])
+  rank      Int
+
+  @@unique([adopterId, adopteeId])
+}
+
+model AdopteePreferences {
+  id        Int     @id @default(autoincrement())
+  adopteeId Int
+  adopterId Int
+  adoptee   Adoptee @relation(fields: [adopteeId], references: [id])
+  adopter   Adopter @relation(fields: [adopterId], references: [id])
+  rank      Int
+
+  @@unique([adopteeId, adopterId])
 }

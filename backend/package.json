@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.16.0",
+    "@prisma/client": "^5.16.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "connect-session-sequelize": "^7.1.7",
@@ -26,6 +26,6 @@
   },
   "description": "",
   "devDependencies": {
-    "prisma": "^5.16.1"
+    "prisma": "^5.16.2"
   }
 }
