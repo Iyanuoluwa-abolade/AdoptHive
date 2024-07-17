@@ -7,13 +7,12 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignUp = () => {
   const [FirstName, setFirstName] = useState('');
-  const [MiddleName, setMiddleName] = useState('');
   const [LastName, setLastName] = useState('');
   const [Username, setUsername] = useState('');
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [role, setrole] = useState("AP");
+  const [role, setrole] = useState("Adoptee");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateUser } = useContext(UserContext);
@@ -24,12 +23,12 @@ const SignUp = () => {
 
     try {
 
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('http://localhost:3001/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role }),
+        body: JSON.stringify({ FirstName, LastName, Username, Password, ConfirmPassword, role }),
         credentials: 'include',
       });
 
@@ -77,14 +76,6 @@ const SignUp = () => {
             placeholder="FirstName"
             value={FirstName}
             onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            id="MiddleName"
-            placeholder="MiddleName"
-            value={MiddleName}
-            onChange={(e) => setMiddleName(e.target.value)}
             required
           />
           <input
@@ -140,8 +131,8 @@ const SignUp = () => {
             onChange={(e) => setrole(e.target.value)}
             required
           >
-            <option value="AP">Adoptive Parent</option>
-            <option value="OS">Orphanage Staff</option>
+            <option value="Adopter">Adopter</option>
+            <option value="Adoptee">Adoptee</option>
           </select>
 
           {error && <div className="error">{error}</div>}

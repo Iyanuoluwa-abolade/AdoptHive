@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from '../MainPage/MainPage';
 import AdopteesProfile from '../AdopteesProfile/AdopteesProfile'
 import Home from '../Home/Home';
+import MatchAdoptersAdoptees from '../MatchAdoptersAdoptees/MatchAdoptersAdoptees';
+
 
 
 
@@ -30,8 +32,11 @@ function App() {
     localStorage.setItem('user', JSON.stringify(user));
   }, [user]);
 
+
+
+
   return (
-    <div className="App">
+    <div className="App" style={{overflowX: "hidden"}}>
       <Header />
       <UserContext.Provider value={{ user, updateUser }}>
         <Router>
@@ -41,6 +46,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/Home" element={ user? <Home /> : <SignIn />} />
             <Route path="/adoptees-profile" element={<AdopteesProfile />} />
+            <Route path="/match-adopters-adoptees" element={<MatchAdoptersAdoptees />} />
           </Routes>
         </Router>
         <Footer />
