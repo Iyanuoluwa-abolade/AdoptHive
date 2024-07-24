@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
 
 
 
-    const { FirstName, MiddleName, LastName, Username, Password, ConfirmPassword, role } = req.body;
+    const { FirstName, LastName, Username, Password, ConfirmPassword, role } = req.body;
     if (Password !== ConfirmPassword) {
 
 
@@ -36,7 +36,6 @@ router.post("/signup", async (req, res) => {
 
                 data: {
                     FirstName,
-                    MiddleName,
                     LastName,
                     Username,
                     Password: hashedPassword,
