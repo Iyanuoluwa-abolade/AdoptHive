@@ -1,29 +1,34 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import env from 'dotenv';
-import { galeShapley } from '../matchAlgorithm.js';
 
-const adopteesRoute = express.Router();
+const adopteeRouter = express.Router();
 const prisma = new PrismaClient();
-env.config();
 
-adopteesRoute.get("/adoptees-profile", async (req, res) => {
+adopteeRouter.post("/adoptee", async (req, res) => {
+    const { UserId, firstName, lastName, age, sex, birthdate, photoUrl, background, interests, education, traits, dreams } = req.body;
     try {
-        const adopteesProfile = await prisma.adoptee.findMany();
-        res.json(adopteesProfile);
-    } catch (error) {
-
-        res.status(500).json({ error: 'Internal Server Error' });
+        const adoptee = await prisma.adoptee.create({
+            data: {
+                firstName,
+                lastName,
+                age: parseInt(age),
+                sex,
+                birthdate,
+                photoUrl,
+                background,
+                interests,
+                education,
+                traits,
+                dreams,
+                User: {
+                  connect: { id: UserId}
+                }
+            },
+        });
+        res.status(201).json(adoptee);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
-adopteesRoute.get('/matches', async (req, res) => {
-    try {
-      const matches = await galeShapley(req.query.userId, 'adoptee');
-      res.json(matches);
-    } catch (error) {
-      
-      res.status(500).json({ error: 'Matching algorithm failed' });
-    }
-  });
 
-export default adopteesRoute;
+export default adopteeRouter;
