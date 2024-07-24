@@ -8,7 +8,9 @@ const MainPage = () => {
         <p>Get started today to find your perfect match.</p>
         <div className="get-started-container">
             <Link to="/signin">
-                <button className="get-started-btn">Get Started</button>
+                <button className="get-started-btn">Get Started
+                  <i className="fas fa-arrow-right" />
+                </button>
             </Link>
         </div>
     </div>

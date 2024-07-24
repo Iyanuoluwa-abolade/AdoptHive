@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react';
-import './SignUp.css';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import './SignUp.css';
 
 const SignUp = () => {
   const [FirstName, setFirstName] = useState('');
@@ -12,7 +12,7 @@ const SignUp = () => {
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [role, setrole] = useState("Adoptee");
+  const [role, setRole] = useState("Adoptee");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateUser } = useContext(UserContext);
@@ -21,9 +21,13 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    try {
+    if (Password !== ConfirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
 
-      const response = await fetch('http://localhost:3001/signup', {
+    try {
+      const response = await fetch('http://localhost:3004/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,34 +37,26 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-
-        const SignedInUser =  await response.json();
-
-
-
-        updateUser(SignedInUser);
-        navigate('/Home');
+        const result = await response.json();
+        updateUser(result.user);
+        navigate(result.redirectUrl);
       } else {
         setError('Sign Up failed');
       }
-
     } catch (error) {
-
-      return(error)
-
-
+      setError('Sign Up failed: ' + error.message);
     }
   }
 
   function navigateToSignIn() {
-    navigate('/SignIn');
+    navigate('/signin');
   }
 
-  function togglePasswordVisibility(){
+  function togglePasswordVisibility() {
     setShowPassword(!showPassword);
   }
 
-  function toggleConfirmPasswordVisibility(){
+  function toggleConfirmPasswordVisibility() {
     setShowConfirmPassword(!showConfirmPassword);
   }
 
@@ -73,7 +69,7 @@ const SignUp = () => {
           <input
             type="text"
             id="FirstName"
-            placeholder="FirstName"
+            placeholder="First Name"
             value={FirstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -81,7 +77,7 @@ const SignUp = () => {
           <input
             type="text"
             id="LastName"
-            placeholder="LastName"
+            placeholder="Last Name"
             value={LastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -96,7 +92,7 @@ const SignUp = () => {
           />
           <div className='password-container'>
             <input
-              type={showPassword ? 'text' :'password'}
+              type={showPassword ? 'text' : 'password'}
               id="Password"
               placeholder="Password"
               value={Password}
@@ -128,15 +124,13 @@ const SignUp = () => {
           <select
             name="role"
             value={role}
-            onChange={(e) => setrole(e.target.value)}
+            onChange={(e) => setRole(e.target.value)}
             required
           >
             <option value="Adopter">Adopter</option>
             <option value="Adoptee">Adoptee</option>
           </select>
-
           {error && <div className="error">{error}</div>}
-
           <p className='already-have-account'>
             Already have an account?{' '}
             <a className="signin-link" onClick={navigateToSignIn}>
