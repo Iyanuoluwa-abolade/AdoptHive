@@ -4,19 +4,19 @@ import bodyParser from 'body-parser';
 import env from 'dotenv';
 import session from 'express-session';
 import router from './routes/users.js';
-import adoptersRoute from './routes/Adopters.js'
-import adopteesRoute from './routes/Adoptees.js';
-import Sequelize  from 'sequelize';
+import adopterRouter from './routes/Adopters.js';
+import adopteeRouter from './routes/Adoptees.js';
+import adopterlistRouter from './routes/AdopterList.js';
+import adopteelistRouter from './routes/AdopteeList.js';
+import preferenceRouter from './routes/Preference.js';
+import Sequelize from 'sequelize';
 import SequelizeStoreInit from 'connect-session-sequelize';
-import {galeShapley} from './matchAlgorithm.js';
-
+import matchRouter from './routes/matchRouter.js';
 
 const app = express();
-const port = 3001;
-const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000
+const port = 3004;
+const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000;
 env.config();
-
-
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
@@ -27,8 +27,6 @@ const sessionStore = new SequelizeStore({
     db: sequelize,
 });
 
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
@@ -37,6 +35,7 @@ app.use(
         credentials: true,
     })
 );
+
 app.use(
     session({
         secret: 'TOPSECRETWORD',
@@ -44,28 +43,32 @@ app.use(
         saveUninitialized: false,
         store: sessionStore,
         cookie: {
-            sameSite: 'false',
+            sameSite: 'lax',
             secure: false,
             expires: new Date(Date.now() + YEAR_TO_MILLISECOND_CONVERSION_FACTOR),
         },
     })
 );
 
-sessionStore.sync();
+sessionStore.sync()
 
 
 app.use(router);
-app.use(adopteesRoute);
-app.use(adoptersRoute);
+app.use(adopteeRouter);
+app.use(adopterRouter);
+app.use(adopteelistRouter);
+app.use(adopterlistRouter);
+app.use(preferenceRouter);
+app.use(matchRouter);
 
-app.get('/matches', async (req, res) => {
-    const matches = await galeShapley();
-    res.json(matches);
-  });
+app.use((req, res, next) => {
+    next();
+});
+
+
 app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
 app.listen(port, () => {
-
 });

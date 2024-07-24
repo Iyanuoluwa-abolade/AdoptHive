@@ -20,8 +20,8 @@ model user {
   Username  String   @unique
   Password  String
   role      Role
-  Adopter   Adopter?
-  Adoptee   Adoptee?
+  adopter   Adopter?
+  adoptee   Adoptee?
 }
 
 enum Sex {
@@ -35,42 +35,46 @@ enum Role {
 }
 
 model Adopter {
-  id                 Int                  @id @default(autoincrement())
-  firstName          String
-  lastName           String
-  age                Int
-  sex                Sex
-  status             String
-  photoUrl           String
-  background         String
-  UserId             Int                  @unique
-  User               user                 @relation(fields: [UserId], references: [id])
-  adoptee            Adoptee?             @relation("AdopterMatch", fields: [id], references: [id])
-  AdopterPreferences AdopterPreferences[]
-  AdopteePreferences AdopteePreferences[]
+  id         Int    @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  age        Int
+  sex        Sex
+  status     String
+  photoUrl   String
+  background String
+  UserId     Int    @unique
+  User       user   @relation(fields: [UserId], references: [id])
+
+  preferences AdopterPreference[]
+
+  AdopteePreference AdopteePreference[]
+  TextScore         TextScore[]
 }
 
 model Adoptee {
-  id                 Int                  @id @default(autoincrement())
-  firstName          String
-  lastName           String
-  age                Int
-  sex                Sex
-  birthdate          String
-  photoUrl           String
-  background         String
-  interests          String
-  education          String
-  traits             String
-  dreams             String
-  UserId             Int                  @unique
-  User               user                 @relation(fields: [UserId], references: [id])
-  adopter            Adopter?             @relation("AdopterMatch")
-  AdopteePreferences AdopteePreferences[]
-  AdopterPreferences AdopterPreferences[]
+  id         Int    @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  age        Int
+  sex        Sex
+  birthdate  String
+  photoUrl   String
+  background String
+  interests  String
+  education  String
+  traits     String
+  dreams     String
+  UserId     Int    @unique
+  User       user   @relation(fields: [UserId], references: [id])
+
+  preferences AdopteePreference[]
+
+  AdopterPreference AdopterPreference[]
+  TextScore         TextScore[]
 }
 
-model AdopterPreferences {
+model AdopterPreference {
   id        Int     @id @default(autoincrement())
   adopterId Int
   adopteeId Int
@@ -81,7 +85,7 @@ model AdopterPreferences {
   @@unique([adopterId, adopteeId])
 }
 
-model AdopteePreferences {
+model AdopteePreference {
   id        Int     @id @default(autoincrement())
   adopteeId Int
   adopterId Int
@@ -90,4 +94,15 @@ model AdopteePreferences {
   rank      Int
 
   @@unique([adopteeId, adopterId])
+}
+
+model TextScore {
+  id        Int     @id @default(autoincrement())
+  adopterId Int
+  adopteeId Int
+  score     Float
+  Adopter   Adopter @relation(fields: [adopterId], references: [id])
+  Adoptee   Adoptee @relation(fields: [adopteeId], references: [id])
+
+  @@unique([adopterId, adopteeId])
 }

@@ -1,9 +1,10 @@
+
 import { useState, useContext } from 'react';
-import './SignIn.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import './SignIn.css';
 
 const SignIn = () => {
   const [Username, setUsername] = useState('');
@@ -17,7 +18,6 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-
     if (!Username || !Password) {
       setError('Please enter a username and password');
       return;
@@ -26,7 +26,7 @@ const SignIn = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(`http://localhost:3001/signin`, {
+      const response = await fetch('http://localhost:3004/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,14 +36,11 @@ const SignIn = () => {
       });
 
       if (response.ok) {
-        const user = await response.json();
-        updateUser(user.user)
-
-
-        navigate('/Home');
+        const data = await response.json();
+        updateUser(data.user);
+        navigate(data.redirectUrl);
       } else {
         setError('Error signing in');
-        navigate('/Home');
       }
     } catch (error) {
       setError('Sign in failed: ' + error.message);
@@ -53,7 +50,7 @@ const SignIn = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
+    setShowPassword(!showPassword);
   }
 
   return (
@@ -70,7 +67,7 @@ const SignIn = () => {
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <div className='password-container'></div>
+            <div className='password-container'>
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="Password"
@@ -84,6 +81,7 @@ const SignIn = () => {
                 className="toggle-password"
                 onClick={togglePasswordVisibility}
               />
+            </div>
           </div>
           {error && <div className="error">{error}</div>}
           <p className='new-to-adopthive'>

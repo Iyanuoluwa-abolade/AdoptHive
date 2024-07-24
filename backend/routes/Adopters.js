@@ -1,33 +1,34 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import env from 'dotenv';
 
-const adoptersRoute = express.Router();
+const adopterRouter = express.Router();
 const prisma = new PrismaClient();
-env.config();
 
+adopterRouter.post("/adopter", async (req, res) => {
+    const { UserId, firstName, lastName, age, sex, status, photoUrl, background } = req.body;
 
-adoptersRoute.get("/adopters-profile", async (req, res) => {
-
-    try {
-        const AdoptersProfile = await prisma.adopter.findMany();
-        res.json(AdoptersProfile)
-
-    } catch(err) {
-        res.status(500).json({err: 'Internal Server Error'})
+    if (!UserId || !firstName ||!lastName || !age ||!sex ||!status ||!background) {
+      return res.status(400).json({message: "All fields are required"});
     }
-
+    try {
+        const adopter = await prisma.adopter.create({
+            data: {
+                firstName,
+                lastName,
+                age: parseInt(age),
+                sex,
+                status,
+                photoUrl,
+                background,
+                User: {
+                  connect: {id: UserId},
+                }
+            },
+        });
+        res.status(201).json(adopter);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-adoptersRoute.get('/matches', async (req, res) => {
-    try {
-      const matches = await galeShapley(req.query.userId, 'adopter');
-      res.json(matches);
-    } catch (error) {
-
-      res.status(500).json({ error: 'Matching algorithm failed' });
-    }
-  });
-
-
-export default adoptersRoute;
+export default adopterRouter;

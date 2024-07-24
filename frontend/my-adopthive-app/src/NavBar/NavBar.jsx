@@ -5,7 +5,6 @@ import './NavBar.css';
 function Navbar() {
     const [ showProfile, setShowProfile ] = useState(false);
 
-
     function handleProfileDisplay() {
         setShowProfile(!showProfile);
     }

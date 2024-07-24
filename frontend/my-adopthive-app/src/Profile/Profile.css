@@ -1,32 +1,56 @@
 .profile {
-    background-color: rgb(58, 21, 21);
-    padding: 10px;
-    top: 70px;
-    right: 100px;
-    border-radius: 7px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px black;
-    position: absolute;
-    text-align: left;
-  }
+  background-color: rgb(58, 21, 21);
+  padding: 10px;
+  top: 70px;
+  width:25%;
+  right: 150px;
+  border-radius: 7px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px black;
+  position: absolute;
+  text-align: left;
+}
 
-  .profile p {
-    font-size: 18px;
-    margin: 10px 0;
-  }
+.profile-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #000;
+    cursor: pointer;
+}
 
-  .profile button {
-    background-color:  rgba(0, 0, 0, 0.5);
+.profile img {
+    margin-bottom: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    width: 130px;
+    height: 130px;
+}
+
+.profile p {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.profile input {
+    margin-top: 5px;
+}
+
+.profile button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: black;
     color: white;
     border: none;
-    margin-top: 15px;
-    padding: 10px 20px;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-left: 20px;
-  }
+    margin-left: 30%;
+}
 
-  .profile button:hover {
-    background-color: #d32f2f;
-  }
+.profile button:hover {
+    background-color:black;
+}
