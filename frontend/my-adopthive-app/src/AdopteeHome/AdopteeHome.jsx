@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
 import NavBar from '../NavBar/NavBar';
 import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
+import AdopterListHome from '../AdopterListHome/AdopterListHome';
 import './AdopteeHome.css';
 
 function AdopteeHome() {
@@ -36,6 +37,7 @@ function AdopteeHome() {
             ) : (
               <h1>Welcome back, {user.FirstName}!</h1>
             )}
+            <AdopterListHome />
           </div>
         </div>
       )}

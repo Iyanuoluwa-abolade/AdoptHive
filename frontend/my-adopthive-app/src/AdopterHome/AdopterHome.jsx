@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
 import NavBar from '../NavBar/NavBar';
 import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
+import AdopteeListHome from '../AdopteeListHome/AdopteeListHome';
 import './AdopterHome.css';
 
 function AdopterHome() {
@@ -36,11 +37,11 @@ function AdopterHome() {
             ) : (
               <h1>Welcome back, {user.FirstName}!</h1>
             )}
+            <AdopteeListHome/>
           </div>
         </div>
       )}
     </div>
   );
 }
-
 export default AdopterHome;

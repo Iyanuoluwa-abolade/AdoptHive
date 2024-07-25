@@ -11,6 +11,8 @@ const AdopterProfile = () => {
   const [status, setStatus] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [background, setBackground] = useState('');
+  const [city, setCity] = useState('')
+  const [country, setCountry] = useState('')
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -26,9 +28,11 @@ const AdopterProfile = () => {
       status,
       photoUrl,
       background,
+      city,
+      country,
     };
     try {
-      const response = await fetch('http://localhost:4/adopter', {
+      const response = await fetch('http://localhost:3004/adopter-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -56,10 +60,11 @@ const AdopterProfile = () => {
       <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} placeholder="Status" required />
       <input type="url" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} placeholder="Photo URL" />
       <textarea value={background} onChange={(e) => setBackground(e.target.value)} placeholder="Background"></textarea>
+      <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" required />
+      <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Country" required />
       {error && <div className="error">{error}</div>}
       <button type="submit">Save Profile</button>
     </form>
   );
 };
-
 export default AdopterProfile;

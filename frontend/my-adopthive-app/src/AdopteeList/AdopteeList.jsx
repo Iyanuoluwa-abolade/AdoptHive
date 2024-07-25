@@ -86,6 +86,8 @@ const AdopteeList = () => {
               <p>Education: {adoptee.education}</p>
               <p>Traits: {adoptee.traits}</p>
               <p>Dreams: {adoptee.dreams}</p>
+              <p>City: {adoptee.city}</p>
+              <p>Country: {adoptee.country}</p>
               <img src={adoptee.photoUrl} alt={`${adoptee.firstName} ${adoptee.lastName}`} />
               <div>
                 <label>Rank: </label>

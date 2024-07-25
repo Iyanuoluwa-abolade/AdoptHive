@@ -82,6 +82,8 @@ const AdopterList = () => {
               <p>Sex: {adopter.sex}</p>
               <p>Status: {adopter.status}</p>
               <p>Background: {adopter.background}</p>
+              <p>City: {adopter.city}</p>
+              <p>Country: {adopter.country}</p>
               <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
               <div>
                 <label>Rank: </label>
@@ -110,5 +112,4 @@ const AdopterList = () => {
     </div>
   );
 };
-
 export default AdopterList;

@@ -15,7 +15,10 @@ const AdopteeProfile = () => {
   const [education, setEducation] = useState('');
   const [traits, setTraits] = useState('');
   const [dreams, setDreams] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -34,9 +37,11 @@ const AdopteeProfile = () => {
       education,
       traits,
       dreams,
+      city,
+      country,
     };
 
-    const response = await fetch('http://localhost:3004/adoptee', {
+    const response = await fetch('http://localhost:3004/adoptee-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -65,10 +70,11 @@ const AdopteeProfile = () => {
       <textarea value={education} onChange={(e) => setEducation(e.target.value)} placeholder="Education"></textarea>
       <textarea value={traits} onChange={(e) => setTraits(e.target.value)} placeholder="Traits"></textarea>
       <textarea value={dreams} onChange={(e) => setDreams(e.target.value)} placeholder="Dreams"></textarea>
+      <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" required />
+      <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Country" required />
       {error && <div className="error">{error}</div>}
       <button type="submit">Save Profile</button>
     </form>
   );
 };
-
 export default AdopteeProfile;
