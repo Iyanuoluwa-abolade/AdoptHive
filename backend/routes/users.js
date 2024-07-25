@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 router.post('/signup', async (req, res) => {
-  const { FirstName, LastName, Username, Password, ConfirmPassword, role } = req.body;
+  const { FirstName, LastName, email, Username, Password, ConfirmPassword, role } = req.body;
   if (Password !== ConfirmPassword) {
     return res.status(401).json({ error: 'Passwords do not match' });
   } else {
@@ -22,6 +22,7 @@ router.post('/signup', async (req, res) => {
         data: {
           FirstName,
           LastName,
+          email,
           Username,
           Password: hashedPassword,
           role,

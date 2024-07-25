@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 router.post('/', async (req, res) => {
   const { adopterId, adopteeId, rank } = req.body;
-
   try {
     const newPreference = await prisma.adopterPreference.upsert({
       where: {
@@ -32,7 +31,6 @@ router.post('/', async (req, res) => {
 
 router.get('/:adopterId', async (req, res) => {
   const { adopterId } = req.params;
-
   try {
     const preferences = await prisma.adopterPreference.findMany({
       where: { adopterId: parseInt(adopterId, 10) },
@@ -43,5 +41,4 @@ router.get('/:adopterId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 export default router;

@@ -12,9 +12,7 @@ import preferenceRouter from './routes/Preference.js';
 import Sequelize from 'sequelize';
 import SequelizeStoreInit from 'connect-session-sequelize';
 import matchRouter from './routes/matchRouter.js';
-import geohashing from './geohashing.js';
 
-const {startGeohashing, testGeohashing }= geohashing
 const app = express();
 const port = 3004;
 const YEAR_TO_MILLISECOND_CONVERSION_FACTOR = 365 * 24 * 60 * 60 * 1000;
@@ -37,7 +35,6 @@ app.use(
         credentials: true,
     })
 );
-
 app.use(
     session({
         secret: 'TOPSECRETWORD',
@@ -62,24 +59,6 @@ app.use(preferenceRouter);
 app.use(matchRouter);
 app.use((req, res, next) => {
     next();
-});
-
-app.get('/start-geohashing', (req, res) => {
-    try {
-        geohashing.startGeohashing();
-        res.status(200).send('Geohashing process started. Check the console for output.');
-    } catch (error) {
-        res.status(500).send(`Error starting geohashing: ${error.message}`);
-    }
-});
-
-app.get('/test-geohashing', (req, res) => {
-    try {
-        geohashing.testGeohashing();
-        res.status(200).send('Geohashing test complete. Check the console for output.');
-    } catch (error) {
-        res.status(500).send(`Error testing geohashing: ${error.message}`);
-    }
 });
 
 app.get("/", (req, res) => {
