@@ -1,19 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+function generateRandomElement() {
+    const latitude = Math.random() * 180 - 90;
+    const longitude = Math.random() * 360 - 180;
+    return { latitude, longitude };
+}
 
-const prisma = new PrismaClient();
-
-async function fetchCoordinatesFromDatabase(coordinates_num) {
-    const coordinatesArray = await prisma.location.findMany({
-        take: coordinates_num,
-        select: {
-            latitude: true,
-            longitude: true,
-        },
-    });
+function generateRandomCoordinates(coordinates_num) {
+    const coordinatesArray = [];
+    for (let i = 0; i < coordinates_num; i++) {
+        const coordinates = generateRandomElement();
+        coordinatesArray.push(coordinates);
+    }
     return coordinatesArray;
 }
 
-export function encodeGeohash(lat, long, precision = 12) {
+function encodeGeohash(lat, long, precision = 12) {
     const latInterval = [-90, 90];
     const longInterval = [-180, 180];
     let geohash = '';
@@ -21,10 +21,11 @@ export function encodeGeohash(lat, long, precision = 12) {
     let isEvenBit = true;
 
     while (geohash.length < precision) {
+        let mid;
         let charBits = 0;
         for (let bit = 4; bit >= 0; --bit) {
             if (isEvenBit) {
-                const mid = (longInterval[0] + longInterval[1]) / 2;
+                mid = (longInterval[0] + longInterval[1]) / 2;
                 if (long > mid) {
                     charBits |= 1 << bit;
                     longInterval[0] = mid;
@@ -32,7 +33,7 @@ export function encodeGeohash(lat, long, precision = 12) {
                     longInterval[1] = mid;
                 }
             } else {
-                const mid = (latInterval[0] + latInterval[1]) / 2;
+                mid = (latInterval[0] + latInterval[1]) / 2;
                 if (lat > mid) {
                     charBits |= 1 << bit;
                     latInterval[0] = mid;
@@ -50,8 +51,9 @@ export function encodeGeohash(lat, long, precision = 12) {
 function geohashes(coordinates, min_long, max_long, min_lat, max_lat, geohash) {
     if (coordinates.length < 100) {
         return coordinates.map(coord => {
-            const { latitude, longitude } = coord;
-            const geoHash = encodeGeohash(latitude, longitude);
+            const lat = coord.latitude;
+            const long = coord.longitude;
+            const geoHash = encodeGeohash(lat, long);
             return { ...coord, geohash: geoHash };
         });
     } else {
@@ -74,6 +76,7 @@ function subdivide(coordinates, min_long, max_long, min_lat, max_lat, geohash) {
 
     const bottomRight = coordinates.filter(c => c.latitude < midLat && c.longitude >= midLong);
     const bottomRightResult = geohashes(bottomRight, midLong, max_long, min_lat, midLat, geohash + '3');
+
     return [
         ...topLeftResult,
         ...topRightResult,
@@ -82,20 +85,29 @@ function subdivide(coordinates, min_long, max_long, min_lat, max_lat, geohash) {
     ];
 }
 
-async function startGeohashing() {
-    try {
-        const coordinates_num = 1000;
-        const coordinatesArray = await fetchCoordinatesFromDatabase(coordinates_num);
-        const min_long = -180;
-        const max_long = 180;
-        const min_lat = -90;
-        const max_lat = 90;
-        const initialGeohash = '';
-        const processedCoordinates = geohashes(coordinatesArray, min_long, max_long, min_lat, max_lat, initialGeohash);
-        return ('Processed coordinates:', processedCoordinates);
-    } catch (error) {
-    }
+function startGeohashing() {
+    const coordinates_num = 1000000;
+    const randomCoordinatesArray = generateRandomCoordinates(coordinates_num);
+    const min_long = -180;
+    const max_long = 180;
+    const min_lat = -90;
+    const max_lat = 90;
+    const initialGeohash = '';
+    const processedCoordinates = geohashes(randomCoordinatesArray, min_long, max_long, min_lat, max_lat, initialGeohash);
+}
+
+function testGeohashing() {
+    const testCoords = [
+        { latitude: 90, longitude: 180 },
+        { latitude: -90, longitude: -180 },
+        { latitude: 0, longitude: 0 },
+        { latitude: 45, longitude: 90 },
+        { latitude: -45, longitude: -90 },
+    ];
+    testCoords.forEach(coord => {
+        const [result] = geohashes([coord], -180, 180, -90, 90, '');
+    });
 }
 
 startGeohashing();
-export default {startGeohashing};
+testGeohashing();

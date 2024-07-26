@@ -46,6 +46,15 @@ adopterRouter.post("/adopter-profile", async (req, res) => {
     }
 });
 
+adopterRouter.post('/geohash', async (req, res) => {
+    const { latitude, longitude } = req.body;
+    if (!latitude || !longitude) {
+      return res.status(400).json({ message: 'Latitude and longitude are required' });
+    }
+    const geohash = encodeGeohash(latitude, longitude);
+    res.json({ geohash });
+  });
+
 adopterRouter.get("/filter-adoptees", async (req, res) => {
     const { adopterId } = req.query;
     if (!adopterId) {
@@ -76,4 +85,5 @@ adopterRouter.get("/filter-adoptees", async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
 export default adopterRouter;

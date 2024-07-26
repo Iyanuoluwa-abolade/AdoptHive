@@ -18,7 +18,7 @@ adopteeRouter.post("/adoptee-profile", async (req, res) => {
         const location = await prisma.location.create({
             data: {latitude, longitude, geohash},
         })
-        
+
         const adoptee = await prisma.adoptee.create({
             data: {
                 firstName,
@@ -47,4 +47,14 @@ adopteeRouter.post("/adoptee-profile", async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+adopteeRouter.post('/geohash', async (req, res) => {
+    const { latitude, longitude } = req.body;
+    if (!latitude || !longitude) {
+      return res.status(400).json({ message: 'Latitude and longitude are required' });
+    }
+    const geohash = encodeGeohash(latitude, longitude);
+    res.json({ geohash });
+  });
+  
 export default adopteeRouter;
