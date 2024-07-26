@@ -28,20 +28,16 @@ const AdopteeListHome = () => {
       {adoptees.length > 0 ? (
         adoptees.map((adoptee) => (
           <div key={adoptee.id} className="adoptee-details">
-            <img src={adoptee.photoUrl} alt={`${adoptee.firstName} ${adoptee.lastName}`} />
-            <h3>
-              {adoptee.firstName} {adoptee.lastName}
-            </h3>
-            <p>Age: {adoptee.age}</p>
-            <p>Sex: {adoptee.sex}</p>
-            <p>Birthdate: {adoptee.birthdate}</p>
-            <p>Background: {adoptee.background}</p>
-            <p>Interests: {adoptee.interests}</p>
-            <p>Education: {adoptee.education}</p>
-            <p>Traits: {adoptee.traits}</p>
-            <p>Dreams: {adoptee.dreams}</p>
-            <p>City: {adoptee.city}</p>
-            <p>Country: {adoptee.country}</p>
+            <img
+              src={adoptee.photoUrl}
+              alt={`${adoptee.firstName} ${adoptee.lastName}`}
+            />
+            <div className="adoptee-info">
+              <h3>{adoptee.firstName} {adoptee.lastName}</h3>
+            </div>
+            <div className='adoptee-age'>
+              <p>Age: {adoptee.age}</p>
+            </div>
           </div>
         ))
       ) : (
@@ -50,4 +46,5 @@ const AdopteeListHome = () => {
     </div>
   );
 };
+
 export default AdopteeListHome;

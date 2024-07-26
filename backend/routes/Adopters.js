@@ -55,35 +55,4 @@ adopterRouter.post('/geohash', async (req, res) => {
     res.json({ geohash });
   });
 
-adopterRouter.get("/filter-adoptees", async (req, res) => {
-    const { adopterId } = req.query;
-    if (!adopterId) {
-        return res.status(400).json({ message: "Adopter ID is required" });
-    }
-    try {
-        const adopter = await prisma.adopter.findUnique({
-            where: { id: parseInt(adopterId) },
-            include: { Location: true },
-        });
-        if (!adopter || !adopter.Location) {
-            return res.status(404).json({ message: "Adopter not found or has no location" });
-        }
-        const geohashPrefix = adopter.Location.geohash.slice(0, 5);
-        const nearbyAdoptees = await prisma.adoptee.findMany({
-            where: {
-                Location: {
-                    geohash: {
-                        startsWith: geohashPrefix,
-                    }
-                }
-            },
-            include: { Location: true },
-        });
-        res.status(200).json(nearbyAdoptees);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: err.message });
-    }
-});
-
 export default adopterRouter;

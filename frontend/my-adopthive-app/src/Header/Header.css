@@ -5,6 +5,7 @@
   padding: 10px 20px;
   background-color: aquamarine;
   color: black;
+  box-shadow: 0 4px 8px black
 }
 
 .header h1 {
@@ -21,6 +22,6 @@
 
 .profile-container {
   position: absolute;
-  top: 70px; 
+  top: 70px;
   right: 20px;
 }

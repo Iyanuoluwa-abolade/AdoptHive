@@ -18,7 +18,6 @@ const AdopterListHome = () => {
         setError('Error: ' + error.message);
       }
     };
-
     fetchAdopters();
   }, []);
 

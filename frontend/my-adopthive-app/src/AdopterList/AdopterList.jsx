@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import './AdopterList.css';
 import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
+import Spinner from '../Loading/Loading';
+import useLoading from '../useLoading/useLoading';
 
 const AdopterList = () => {
   const [adopters, setAdopters] = useState([]);
@@ -8,8 +10,10 @@ const AdopterList = () => {
   const [error, setError] = useState('');
   const [matchResult, setMatchResult] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
+    startLoading();
     const fetchAdopters = async () => {
       try {
         const response = await fetch('http://localhost:3004/adopter');
@@ -21,11 +25,12 @@ const AdopterList = () => {
         }
       } catch (error) {
         setError('Error: ' + error.message);
+      } finally {
+        stopLoading();
       }
     };
-
     fetchAdopters();
-  }, []);
+  }, [] );
 
   const handleRankChange = (adopterId, rank) => {
     setPreferences({ ...preferences, [adopterId]: rank });
@@ -60,7 +65,7 @@ const AdopterList = () => {
     try {
       const response = await fetch('http://localhost:3004/run-matching', {
         credentials: 'include',
-      })
+      });
       if (response.ok) {
         const match = await response.json();
         setMatchResult(match);
@@ -71,53 +76,60 @@ const AdopterList = () => {
       setError('Error: ' + error.message);
     }
   };
-  function toggleSideBar()  {
+
+  function toggleSideBar() {
     setIsSideBarOpen(!isSideBarOpen);
   }
 
   return (
-    <div>
+    <div className='adopter-list-container'>
       <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-      {error && <div className="error">{error}</div>}
-      <form onSubmit={handleSubmit}>
-      <h2>Adopters</h2>
-        <ul>
-          {adopters.map((adopter) => (
-            <li key={adopter.id}>
-              <h3>{adopter.firstName} {adopter.lastName}</h3>
-              <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
-              <p>Age: {adopter.age}</p>
-              <p>Sex: {adopter.sex}</p>
-              <p>Status: {adopter.status}</p>
-              <p>Background: {adopter.background}</p>
-              <p>City: {adopter.city}</p>
-              <p>Country: {adopter.country}</p>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {error && <div className="error">{error}</div>}
+          <form onSubmit={handleSubmit}>
+            <h2>Adopters</h2>
+            <ul>
+              {adopters.map((adopter) => (
+                <li key={adopter.id}>
+                  <h3>{adopter.firstName} {adopter.lastName}</h3>
+                  <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
+                  <p>Age: {adopter.age}</p>
+                  <p>Sex: {adopter.sex}</p>
+                  <p>Status: {adopter.status}</p>
+                  <p>Background: {adopter.background}</p>
+                  <p>City: {adopter.city}</p>
+                  <p>Country: {adopter.country}</p>
 
-              <div className="rank-container">
-                <label>Rank: </label>
-                <input
-                  type="number"
-                  min="1"
-
-                  onChange={(e) => handleRankChange(adopter.id, parseInt(e.target.value))}
-                  required
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-        <button type="submit">Save Preferences</button>
-        <button type="button" onClick={handleRunMatching}>Run Matching</button>
-      </form>
-      {matchResult && matchResult.adopter && (
-        <div>
-          <h3>Match Result</h3>
-          <p>
-            Matched with: {matchResult.adopter.firstName} {matchResult.adopter.lastName}
-          </p>
-        </div>
+                  <div className="rank-container">
+                    <label>Rank: </label>
+                    <input
+                      type="number"
+                      min="1"
+                      onChange={(e) => handleRankChange(adopter.id, parseInt(e.target.value))}
+                      required
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <button type="submit">Save Preferences</button>
+            <button type="button" onClick={handleRunMatching}>Run Matching</button>
+          </form>
+          {matchResult && matchResult.adopter && (
+            <div className='match-result'>
+              <h3>Match Result</h3>
+              <p>
+                Matched with: {matchResult.adopter.firstName} {matchResult.adopter.lastName}
+              </p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 };
+
 export default AdopterList;

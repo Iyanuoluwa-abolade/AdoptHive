@@ -5,15 +5,16 @@ import "./Profile.css";
 import { FiCamera } from "react-icons/fi";
 
 function Profile() {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true)
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [setVideoStream] = useState(null);
 
   function handleLogout() {
-    updateUser(null);
     localStorage.removeItem("user");
+    setIsOpen(false)
     navigate("/signin");
   }
 
@@ -49,37 +50,44 @@ function Profile() {
         return ('Error taking photo:', error);
       });
   }
+return(
+  <>
+      {isOpen && (
+        <div className="profile">
+          <div>
+            <label className="profile-image-upload">
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt="Uploaded Image"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="profile-image-placeholder">
+                  <FiCamera className="camera-icon" onClick={takePhoto} />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                capture="camera"
+                onChange={handleFileInput}
+                style={{ display: 'none' }} 
+              />
+            </label>
+            <p>User: {user.FirstName}</p>
+            <p>Role: {user.role}</p>
 
-  return (
-    <div className="profile">
-      <label className="profile-image-upload">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="Uploaded Image"
-            className="profile-image"
-          />
-        ) : (
-          <div className="profile-image-placeholder">
-            <FiCamera className="camera-icon" onClick={takePhoto} />
+            {selectedFile && !imageUrl && (
+              <button onClick={handleUpload}>Upload File</button>
+            )}
+            <button className="log-out" onClick={handleLogout}>Logout</button>
           </div>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          capture="camera"
-          onChange={handleFileInput}
-        />
-      </label>
-      <p>User: {user.FirstName}</p>
-      <p>Role: {user.role}</p>
-
-      {selectedFile && !imageUrl && (
-        <button onClick={handleUpload}>Upload File</button>
+        </div>
       )}
-      <button className="log-out" onClick={handleLogout}>Logout</button>
-    </div>
+    </>
   );
 }
+
 
 export default Profile;

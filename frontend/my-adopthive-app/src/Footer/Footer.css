@@ -3,9 +3,9 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgb(58, 21, 21);
-    color: #fff;
+    background-color: aquamarine;
+    color: black;
     text-align: center;
     padding: 10px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 8px black
 }
