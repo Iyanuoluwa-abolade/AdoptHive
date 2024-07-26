@@ -64,8 +64,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <div className="sign-up-form">
-        <h2>Sign Up</h2>
-        <p className="sign-up-text">Sign Up</p>
+        <h2>SignUp to AdoptHive</h2>
         <form onSubmit={handleSignUp}>
           <input
             type="text"

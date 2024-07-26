@@ -1,90 +1,97 @@
 .sign-in-page {
     display: flex;
     justify-content: center;
-    background-image: url(https://images.pexels.com/photos/9873934/pexels-photo-9873934.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    padding: 20px;
+  }
+
+  .sign-in {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top:30px;
+    padding: 20px;
     width: 100%;
+    max-width: 500px;
+  }
 
-}
-
-.sign-in {
-    padding: 70px;
-    border-radius: 5px;
+  h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #333;
     text-align: center;
-    max-width: 400px;
-    width: 100%;
-    color: white;
-}
+  }
 
-.sign-in h2 {
-    margin-bottom: 40px;
-    font-size: 25px;
-}
-
-.sign-in form {
+  form {
     display: flex;
     flex-direction: column;
-}
 
-.sign-in .inputs {
-    margin-bottom: 20px;
-}
+  }
 
-.sign-in input {
+  input[type="text"],
+  input[type="password"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 16px;
-}
-
-.sign-in .error {
-    color: red;
-    margin-bottom: 10px;
-}
-
-.sign-in p {
-    margin-bottom: 10px;
-}
-
-.sign-in .signup-link {
-    color: #007bff;
-}
-
-.sign-in .signup-link:hover {
-    text-decoration: underline;
-}
-
-.sign-in .Sign-in-btn {
-    background-color:  rgb(58, 21, 21);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.new-to-adopthive {
-    color: white;
+    border-radius: 4px;
+    font-size: 1em;
   }
-.inputs {
-    position: relative;
-}
 
-.password-container {
+  .password-container {
     position: relative;
-    color: rgb(58, 21, 21);
+    width: 97%;
   }
 
   .toggle-password {
     position: absolute;
-    top: 70%;
     right: 10px;
+    top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+    color: #666;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .new-to-adopthive {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .signup-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+
+  .Sign-in-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    color: black;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .Sign-in-btn:hover {
+    background-color: aquamarine; 
+  }
+
+  .Sign-in-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }

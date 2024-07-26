@@ -25,7 +25,6 @@ const AdopteeListHome = () => {
   return (
     <div className="adoptee-list">
       {error && <div className="error">{error}</div>}
-
       {adoptees.length > 0 ? (
         adoptees.map((adoptee) => (
           <div key={adoptee.id} className="adoptee-details">

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import './AdopteeList.css'
+import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
 
 const AdopteeList = () => {
   const [adoptees, setAdoptees] = useState([]);
   const [preferences, setPreferences] = useState({});
   const [error, setError] = useState('');
   const [matchResult, setMatchResult] = useState(null);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   useEffect(() => {
     const fetchAdoptees = async () => {
@@ -68,9 +71,13 @@ const AdopteeList = () => {
       setError('Error: ' + error.message);
     }
   };
+  function toggleSideBar()  {
+    setIsSideBarOpen(!isSideBarOpen);
+  }
 
   return (
     <div>
+       <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       <h2>Adoptees List</h2>
       {error && <div className="error">{error}</div>}
       <form onSubmit={handleSubmit}>

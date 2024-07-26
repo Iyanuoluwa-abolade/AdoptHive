@@ -25,20 +25,18 @@ const AdopterListHome = () => {
   return (
     <div className="adopter-list">
       {error && <div className="error">{error}</div>}
-
       {adopters.length > 0 ? (
         adopters.map((adopter) => (
           <div key={adopter.id} className="adopter-details">
             <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
-            <h3>
-              {adopter.firstName} {adopter.lastName}
-            </h3>
-            <p>Age: {adopter.age}</p>
-            <p>Sex: {adopter.sex}</p>
-            <p>Status: {adopter.status}</p>
-            <p>Background: {adopter.background}</p>
-            <p>City: {adopter.city}</p>
-            <p>Country: {adopter.country}</p>
+            <div className='adopter-info'>
+                <h3>
+                    {adopter.firstName} {adopter.lastName}
+                </h3>
+            </div>
+            <div className='adopter-age'>
+                <p> {adopter.age}, {adopter.status} </p>
+            </div>
           </div>
         ))
       ) : (

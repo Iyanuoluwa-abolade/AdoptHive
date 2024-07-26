@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
-import NavBar from '../NavBar/NavBar';
 import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
 import AdopterListHome from '../AdopterListHome/AdopterListHome';
 import './AdopteeHome.css';
@@ -28,8 +27,6 @@ function AdopteeHome() {
     <div className="home-container">
       {user && (
         <div>
-          <NavBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-
           <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
           <div className="home-content">
             {isNewUser ? (

@@ -1,0 +1,65 @@
+.adopter-list {
+    padding: 300px;
+    background-color: #f9f9f9;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .adopter-details {
+    border: 10px solid #ddd;
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .adopter-details img {
+    border-radius: 50%;
+    margin-right: 15px;
+    width: 105px;
+    height: 105px;
+    object-fit: cover;
+  }
+
+  .adopter-details .adopter-info {
+    flex: 1;
+  }
+
+  .adopter-details .adopter-info h3 {
+    margin: 0;
+    font-size: 35px;
+    color: #333;
+    text-align: left;
+  }
+
+  .adopter-details .adopter-meta {
+    text-align: right;
+    max-width: 200px;
+  }
+
+  .adopter-details .adopter-age p {
+    margin: 5px 0;
+    font-size: 25px;
+    color: #666;
+    text-align: right;
+  }
+
+  .adopter-details p:first-of-type {
+    margin-top: 0;
+  }
+
+  .adopter-details p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .no-adopters {
+    font-size: 1.2em;
+    color: #555;
+  }

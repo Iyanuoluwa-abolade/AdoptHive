@@ -1,5 +1,5 @@
 import Header from '../Header/Header';
-// import Footer from '../Footer/Footer.jsx';
+import Footer from '../Footer/Footer.jsx';
 import SignIn from '../SignIn/SignIn.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
 import MainPage from '../MainPage/MainPage';
@@ -19,8 +19,8 @@ function App() {
 
   return (
     <div className="App" style={{ overflowX: "hidden" }}>
-      <Header />
       <Router>
+      <Header />
         <Routes>
           <Route path="/mainpage" element={user ? <MainPage /> : <Navigate to="/signin" />} />
           <Route path="/signin" element={<SignIn />} />
@@ -34,7 +34,7 @@ function App() {
           <Route path="/adoptee-home" element={user && role === 'Adoptee' ? <AdopteeHome /> : <Navigate to="/signin" />} />
         </Routes>
       </Router>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
