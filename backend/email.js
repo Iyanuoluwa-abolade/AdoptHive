@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 import nodemailer from 'nodemailer'
 
-
 const HOST = process.env.SMTP_HOST;
 const PORT = process.env.SMTP_PORT;
 const USER = process.env.SMTP_USER;
@@ -28,9 +27,9 @@ export const sendEmail = async (to, subject, message) => {
             from: EMAIL_FROM,
             to: to,
             subject: subject,
-            text: message,
+            html: `<p>You have a new match. Please <a href="http://localhost:5173/signin">sign in</a> to view it.</p>`,
         });
     } catch (error) {
-        resizeBy.json(500).json({error: "Error sending email"})
+        return ({error: "Error sending email"})
     }
 }
