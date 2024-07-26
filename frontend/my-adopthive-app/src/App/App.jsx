@@ -19,8 +19,8 @@ function App() {
 
   return (
     <div className="App" style={{ overflowX: "hidden" }}>
-      <Header />
       <Router>
+      <Header />
         <Routes>
           <Route path="/mainpage" element={user ? <MainPage /> : <Navigate to="/signin" />} />
           <Route path="/signin" element={<SignIn />} />

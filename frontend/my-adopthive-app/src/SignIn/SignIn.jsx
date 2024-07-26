@@ -1,4 +1,3 @@
-
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
@@ -56,7 +55,7 @@ const SignIn = () => {
   return (
     <div className="sign-in-page">
       <div className="sign-in">
-        <h2>Sign In</h2>
+        <h2>SignIn to AdoptHive</h2>
         <form onSubmit={handleSignIn}>
           <div className="inputs">
             <input

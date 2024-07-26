@@ -17,6 +17,7 @@ model user {
   id        Int      @unique @default(autoincrement())
   FirstName String
   LastName  String
+  email     String   @unique
   Username  String   @unique
   Password  String
   role      Role
@@ -43,11 +44,14 @@ model Adopter {
   status     String
   photoUrl   String
   background String
-  UserId     Int    @unique
-  User       user   @relation(fields: [UserId], references: [id])
+  city       String
+  country      String
+  UserId     Int      @unique
+  User       user     @relation(fields: [UserId], references: [id])
+  Location   Location @relation(fields: [LocationId], references: [id])
+  LocationId Int
 
   preferences AdopterPreference[]
-
   AdopteePreference AdopteePreference[]
   TextScore         TextScore[]
 }
@@ -65,11 +69,14 @@ model Adoptee {
   education  String
   traits     String
   dreams     String
+  city       String
+  country      String
   UserId     Int    @unique
   User       user   @relation(fields: [UserId], references: [id])
+  Location   Location @relation(fields: [LocationId], references: [id])
+  LocationId Int
 
   preferences AdopteePreference[]
-
   AdopterPreference AdopterPreference[]
   TextScore         TextScore[]
 }
@@ -97,7 +104,6 @@ model AdopteePreference {
 }
 
 model TextScore {
-  id        Int     @id @default(autoincrement())
   adopterId Int
   adopteeId Int
   score     Float
@@ -105,4 +111,13 @@ model TextScore {
   Adoptee   Adoptee @relation(fields: [adopteeId], references: [id])
 
   @@unique([adopterId, adopteeId])
+}
+
+model Location {
+  id        Int     @id @default(autoincrement())
+  latitude   Float?
+  longitude  Float?
+  geohash    String?
+  adopters   Adopter[]
+  adoptees   Adoptee[]
 }

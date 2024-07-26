@@ -8,6 +8,7 @@ import './SignUp.css';
 const SignUp = () => {
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
+  const [email, setemail] = useState('')
   const [Username, setUsername] = useState('');
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
@@ -32,7 +33,7 @@ const SignUp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ FirstName, LastName, Username, Password, ConfirmPassword, role }),
+        body: JSON.stringify({ FirstName, LastName, email, Username, Password, ConfirmPassword, role }),
         credentials: 'include',
       });
 
@@ -63,8 +64,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <div className="sign-up-form">
-        <h2>Sign Up</h2>
-        <p className="sign-up-text">Sign Up</p>
+        <h2>SignUp to AdoptHive</h2>
         <form onSubmit={handleSignUp}>
           <input
             type="text"
@@ -80,6 +80,14 @@ const SignUp = () => {
             placeholder="Last Name"
             value={LastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            id="email"
+            placeholder="email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
             required
           />
           <input

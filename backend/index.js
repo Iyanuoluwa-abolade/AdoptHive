@@ -35,7 +35,6 @@ app.use(
         credentials: true,
     })
 );
-
 app.use(
     session({
         secret: 'TOPSECRETWORD',
@@ -51,8 +50,6 @@ app.use(
 );
 
 sessionStore.sync()
-
-
 app.use(router);
 app.use(adopteeRouter);
 app.use(adopterRouter);
@@ -60,11 +57,9 @@ app.use(adopteelistRouter);
 app.use(adopterlistRouter);
 app.use(preferenceRouter);
 app.use(matchRouter);
-
 app.use((req, res, next) => {
     next();
 });
-
 
 app.get("/", (req, res) => {
     res.send("Hello World");

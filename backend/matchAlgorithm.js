@@ -36,7 +36,6 @@ export async function galeShapley(loggedInUserId, userRole) {
       for (const userId of freeUsers) {
         const currentOtherUserId = userPreferences[userId][proposerIndex[userId]];
         proposerIndex[userId]++;
-
         if (!otherUserMatches[currentOtherUserId]) {
           otherUserMatches[currentOtherUserId] = userId;
           userMatches[userId] = currentOtherUserId;
@@ -55,10 +54,8 @@ export async function galeShapley(loggedInUserId, userRole) {
         }
       }
     }
-
     return { userMatches, otherUserMatches };
   };
-
 
   const applyCosineSimilarity = async (currentUser, userPreferences, userType) => {
     let bestMatch = null;
@@ -68,20 +65,17 @@ export async function galeShapley(loggedInUserId, userRole) {
       const [background, dreams] = userType === 'Adopter'
         ? [currentUser.background, adoptees.find(adoptee => adoptee.id === id)?.dreams || '']
         : [adopters.find(adopter => adopter.id === id)?.background || '', currentUser.dreams];
-
       const similarity = await fetchCosineSimilarity(background, dreams);
       if (similarity.similarity > bestScore) {
         bestScore = similarity.similarity;
         bestMatch = id;
       }
-
       await prisma.textScore.upsert({
         where: { adopterId_adopteeId: { adopterId: parseInt(currentUser.id), adopteeId: parseInt(id) } },
         update: { score: similarity.similarity },
         create: { adopterId: parseInt(currentUser.id), adopteeId: parseInt(id), score: similarity.similarity }
       });
     }
-
     return userType === 'Adopter'
       ? { adopter: currentUser, adoptee: adoptees.find(adoptee => adoptee.id === bestMatch) }
       : { adopter: adopters.find(adopter => adopter.id === bestMatch), adoptee: currentUser };
@@ -97,7 +91,6 @@ export async function galeShapley(loggedInUserId, userRole) {
         return rawAdopterPreferences.find(pref => pref.adopteeId === id && pref.adopterId === currentAdopter.id).rank !==
           rawAdopterPreferences.find(pref => pref.adopteeId === arr[i - 1] && pref.adopterId === currentAdopter.id).rank;
       });
-
     if (rankDifferent) {
       const freeAdopters = new Set(adopters.map(adopter => adopter.id));
       const proposerIndex = adopters.reduce((acc, adopter) => ({ ...acc, [adopter.id]: 0 }), {});
@@ -112,7 +105,6 @@ export async function galeShapley(loggedInUserId, userRole) {
       return await applyCosineSimilarity(currentAdopter, currentAdopterPrefList, 'Adopter');
     }
   }
-
   if (userRole === 'Adoptee') {
     const currentAdoptee = adoptees.find(adoptee => adoptee.UserId === loggedInUserId);
     const currentAdopteePrefList = adopteePreferences[currentAdoptee.id];
@@ -138,6 +130,5 @@ export async function galeShapley(loggedInUserId, userRole) {
       return await applyCosineSimilarity(currentAdoptee, currentAdopteePrefList, 'Adoptee');
     }
   }
-
   return { error: "Invalid user role or user not found" };
 }

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import './AdopterList.css';
+import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 
 const AdopterList = () => {
   const [adopters, setAdopters] = useState([]);
   const [preferences, setPreferences] = useState({});
   const [error, setError] = useState('');
   const [matchResult, setMatchResult] = useState(null);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   useEffect(() => {
     const fetchAdopters = async () => {
@@ -68,22 +71,29 @@ const AdopterList = () => {
       setError('Error: ' + error.message);
     }
   };
+  function toggleSideBar()  {
+    setIsSideBarOpen(!isSideBarOpen);
+  }
 
   return (
     <div>
-      <h2>Adopters List</h2>
+      <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       {error && <div className="error">{error}</div>}
       <form onSubmit={handleSubmit}>
+      <h2>Adopters</h2>
         <ul>
           {adopters.map((adopter) => (
             <li key={adopter.id}>
               <h3>{adopter.firstName} {adopter.lastName}</h3>
+              <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
               <p>Age: {adopter.age}</p>
               <p>Sex: {adopter.sex}</p>
               <p>Status: {adopter.status}</p>
               <p>Background: {adopter.background}</p>
-              <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
-              <div>
+              <p>City: {adopter.city}</p>
+              <p>Country: {adopter.country}</p>
+
+              <div className="rank-container">
                 <label>Rank: </label>
                 <input
                   type="number"
@@ -110,5 +120,4 @@ const AdopterList = () => {
     </div>
   );
 };
-
 export default AdopterList;

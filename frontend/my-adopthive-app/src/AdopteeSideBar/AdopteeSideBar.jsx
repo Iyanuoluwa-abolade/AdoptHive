@@ -12,6 +12,7 @@ function AdopteeSideBar({isOpen}) {
 
     return (
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
+
             <div className="sidebar-items">
                 <ul>
                     <li className={selectedItem === "adoptee-home" ? "selected" : "" }>
@@ -29,7 +30,7 @@ function AdopteeSideBar({isOpen}) {
                     <li className={selectedItem === "adopter-list" ? "selected" : "" }>
                         <Link to="/adopter-list" onClick={() => handleItemClick("adopter-list")}>
                             <i className="fas fa-users"></i>
-                            <p>Adopters Profile</p>
+                            <p>Find Your Match</p>
                         </Link>
                     </li>
                     <li className={selectedItem === "notifications" ? "selected" : "" }>
