@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './AdopterSideBar.css';
 
-
 function AdopterSideBar({isOpen}) {
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -31,12 +30,6 @@ function AdopterSideBar({isOpen}) {
                         <Link to="/adoptee-list" onClick={() => handleItemClick("adoptee-list")}>
                             <i className="fas fa-users"></i>
                             <p>Find Your Match</p>
-                        </Link>
-                    </li>
-                    <li className={selectedItem === "notifications" ? "selected" : "" }>
-                        <Link to="/notifications" onClick={() => handleItemClick("notifications")}>
-                            <i className='fa-solid fa-bell'></i>
-                            <p>Notifications</p>
                         </Link>
                     </li>
                 </ul>

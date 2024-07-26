@@ -1,0 +1,65 @@
+.adoptee-list {
+    padding: 300px;
+    background-color: #f9f9f9;
+  }
+
+  .error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .adoptee-details {
+    border: 10px solid #ddd;
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .adoptee-details img {
+    border-radius: 50%;
+    margin-right: 15px;
+    width: 105px;
+    height: 105px;
+    object-fit: cover;
+  }
+
+  .adoptee-details .adoptee-info {
+    flex: 1;
+  }
+
+  .adoptee-details .adoptee-info h3 {
+    margin: 0;
+    font-size: 35px;
+    color: #333;
+    text-align: left;
+  }
+
+  .adoptee-details .adoptee-meta {
+    text-align: right;
+    max-width: 200px;
+  }
+
+  .adoptee-details .adoptee-age p {
+    margin: 5px 0;
+    font-size: 25px;
+    color: #666;
+    text-align: right;
+  }
+
+  .adoptee-details p:first-of-type {
+    margin-top: 0;
+  }
+
+  .adoptee-details p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .no-adoptees {
+    font-size: 1.2em;
+    color: #555;
+  }
