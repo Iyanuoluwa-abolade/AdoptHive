@@ -12,6 +12,7 @@ import preferenceRouter from './routes/Preference.js';
 import Sequelize from 'sequelize';
 import SequelizeStoreInit from 'connect-session-sequelize';
 import matchRouter from './routes/matchRouter.js';
+import favouritesRouter from './routes/favourites.js';
 
 const app = express();
 const port = 3004;
@@ -57,6 +58,8 @@ app.use(adopteelistRouter);
 app.use(adopterlistRouter);
 app.use(preferenceRouter);
 app.use(matchRouter);
+app.use(favouritesRouter);
+
 app.use((req, res, next) => {
     next();
 });
