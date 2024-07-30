@@ -42,7 +42,6 @@ const AdopteeList = () => {
       adopterId: parseInt(adopteeId),
       rank: preferences[adopteeId]
     }));
-
     try {
       const response = await fetch('http://localhost:3004/adopter-preference', {
         method: 'POST',
@@ -62,7 +61,6 @@ const AdopteeList = () => {
   };
 
   const handleRunMatching = async () => {
-
     try {
       const response = await fetch('http://localhost:3004/run-matching', {
         credentials: 'include',

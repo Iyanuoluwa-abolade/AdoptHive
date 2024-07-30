@@ -28,7 +28,7 @@ function AdopteeHome() {
           setIsNewUser(false);
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        return('Error fetching user data:', error);
       } finally {
         stopLoading();
       }

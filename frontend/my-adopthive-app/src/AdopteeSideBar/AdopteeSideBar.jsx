@@ -32,6 +32,12 @@ function AdopteeSideBar({isOpen}) {
                             <p>Find Your Match</p>
                         </Link>
                     </li>
+                    <li className={selectedItem === "adoptees-favourites" ? "selected" : "" }>
+                        <Link to="/adoptees-favourites" onClick={() => handleItemClick("adoptees-favourites")}>
+                            <i className='fas fa-heart'></i>
+                            <p>Favourites</p>
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
