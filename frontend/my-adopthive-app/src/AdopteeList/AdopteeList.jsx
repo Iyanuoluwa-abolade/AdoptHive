@@ -1,36 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './AdopteeList.css';
-import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
+import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 import Spinner from '../Loading/Loading';
 import useLoading from '../useLoading/useLoading';
+import { UserContext } from '../UserContext';
 
 const AdopteeList = () => {
   const [adoptees, setAdoptees] = useState([]);
   const [preferences, setPreferences] = useState({});
   const [error, setError] = useState('');
+  const { user } = useContext(UserContext);
   const [matchResult, setMatchResult] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [favourites, setFavourites] = useState([]);
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const UserId = user.id
 
   useEffect(() => {
     startLoading();
-    const fetchAdoptees = async () => {
-      try {
-        const response = await fetch('http://localhost:3004/adoptee');
-        if (response.ok) {
-          const data = await response.json();
-          setAdoptees(data);
-        } else {
-          setError('Failed to fetch adopters');
-        }
-      } catch (error) {
-        setError('Error: ' + error.message);
-      } finally {
-        stopLoading();
-      }
-    };
     fetchAdoptees();
   }, []);
+
+  const fetchAdoptees = async () => {
+    try {
+      const response = await fetch('http://localhost:3004/adoptee');
+      if (response.ok) {
+        const data = await response.json();
+        setAdoptees(data);
+      } else {
+        setError('Failed to fetch adopters');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    } finally {
+      stopLoading();
+    }
+  };
 
   const handleRankChange = (adopteeId, rank) => {
     setPreferences({ ...preferences, [adopteeId]: rank });
@@ -39,7 +44,7 @@ const AdopteeList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const preferenceList = Object.keys(preferences).map(adopteeId => ({
-      adopterId: parseInt(adopteeId),
+      adopteeId: parseInt(adopteeId),
       rank: preferences[adopteeId]
     }));
     try {
@@ -47,13 +52,41 @@ const AdopteeList = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ preferences: preferenceList })
+        body: JSON.stringify({ preferences: preferenceList, UserId })
       });
 
       if (response.ok) {
         alert('Preferences saved successfully');
       } else {
         setError('Failed to save preferences');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    }
+  };
+
+  const handleLike = async (profileId, isAdoptee) => {
+    try {
+      if (favourites.includes(profileId)) {
+        const response = await fetch(`http://localhost:3004/favourites/${UserId}/${profileId}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setFavourites(favourites.filter(id => id !== profileId));
+        } else {
+          setError('Failed to remove from favourites');
+        }
+      } else {
+        const response = await fetch('http://localhost:3004/favourites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ UserId, adopteeId: isAdoptee ? profileId : null, adopterId: !isAdoptee ? profileId : null })
+        });
+        if (response.ok) {
+          setFavourites([...favourites, profileId]);
+        } else {
+          setError('Failed to add to favourites');
+        }
       }
     } catch (error) {
       setError('Error: ' + error.message);
@@ -82,9 +115,9 @@ const AdopteeList = () => {
 
   return (
     <div className='adoptee-list-container'>
-      <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       {isLoading ? (
-      <Spinner />
+        <Spinner />
       ) : (
         <>
           {error && <div className="error">{error}</div>}
@@ -102,7 +135,9 @@ const AdopteeList = () => {
                   <p>Interests: {adoptee.interests}</p>
                   <p>Education: {adoptee.education}</p>
                   <p>Traits: {adoptee.traits}</p>
-                <p>Dreams: {adoptee.dreams}</p>
+                  <p>Dreams: {adoptee.dreams}</p>
+                  <p>City: {adoptee.city}</p>
+                  <p>Country: {adoptee.country}</p>
                   <div className="rank-container">
                     <label>Rank: </label>
                     <input
@@ -112,6 +147,14 @@ const AdopteeList = () => {
                       required
                     />
                   </div>
+                  <i
+                    className={`fa-solid fa-heart ${favourites.includes(adoptee.id) ? 'liked' : ''}`}
+                    onClick={() => handleLike(adoptee.id, true)}
+                    style={{
+                      color: favourites.includes(adoptee.id) ? 'red' : 'gray',
+                      cursor: 'pointer'
+                    }}
+                  />
                 </li>
               ))}
             </ul>

@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../UserContext';
-import './AdopteesFavourites.css';
+import './AdopteeFavourites.css';
 
-const AdopteesFavourites = () => {
+const AdopteeFavourites = () => {
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
   const [error, setError] = useState('');
@@ -65,4 +65,4 @@ const AdopteesFavourites = () => {
     );
 };
 
-export default AdopteesFavourites;
+export default AdopteeFavourites;

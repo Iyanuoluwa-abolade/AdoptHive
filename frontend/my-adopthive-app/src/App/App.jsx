@@ -13,7 +13,8 @@ import { useContext } from 'react';
 import './App.css';
 import { UserContext, UserProvider } from '../UserContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import AdopteesFavourites from '../AdopteesFavourites/AdopteesFavourites.jsx';
+import AdopteeFavourites from '../AdopteeFavourites/AdopteeFavourites.jsx';
+import AdopterFavourites from '../AdopterFavourites/AdopterFavourites.jsx';
 
 function App() {
   const { user, role } = useContext(UserContext);
@@ -33,7 +34,8 @@ function App() {
           <Route path="/adopter-list" element={user && role === 'Adoptee' ? <AdopterList adopteeId={user.id} /> : <Navigate to="/signin" />} />
           <Route path="/adopter-home" element={user && role === 'Adopter' ? <AdopterHome /> : <Navigate to="/signin" />} />
           <Route path="/adoptee-home" element={user && role === 'Adoptee' ? <AdopteeHome /> : <Navigate to="/signin" />} />
-          <Route path="/adoptees-favourites" element={user && role === 'Adoptee' ? <AdopteesFavourites adopteeId={user.id} /> : <Navigate to="/signin" />} />
+          <Route path="/adoptee-favourites" element={user && role === 'Adoptee' ? <AdopteeFavourites adopteeId={user.id} /> : <Navigate to="/signin" />} />
+          <Route path="/adopter-favourites" element={user && role === 'Adopter' ? <AdopterFavourites adopterId={user.id} /> : <Navigate to="/signin" />} />
         </Routes>
       </Router>
       <Footer />

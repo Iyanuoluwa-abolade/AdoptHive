@@ -14,7 +14,6 @@ const AdopterList = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const [favourites, setFavourites] = useState([]);
   const { isLoading, startLoading, stopLoading } = useLoading();
-
   const UserId = user.id
 
   useEffect(() => {
