@@ -16,7 +16,6 @@ matchRouter.get('/run-matching', isAuthenticated, async (req, res) => {
     const result = await galeShapley(userId, userRole);
     const user = await prisma.user.findUnique({
         where:{id: userId},
-
      })
     if (user && user.email) {
         const link = 'http://localhost:5173/signin'
