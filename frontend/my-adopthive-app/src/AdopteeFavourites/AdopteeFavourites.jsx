@@ -1,43 +1,73 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../UserContext';
 import './AdopteeFavourites.css';
+import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
 
 const AdopteeFavourites = () => {
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
   const [error, setError] = useState('');
   const [preferences, setPreferences] = useState({});
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const UserId = user.id
 
   useEffect(() => {
-    const fetchFavourites = async () => {
-      if (!user || !user.id) {
-        setError('User not logged in');
-        return;
-      }
-      try {
-        const response = await fetch(`http://localhost:3004/favourites?userId=${user.id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch favourites');
-        }
-        const data = await response.json();
-        setFavourites(data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
     fetchFavourites();
   }, [user]);
+  const fetchFavourites = async () => {
+    try {
+      const response = await fetch(`http://localhost:3004/favourites?userId=${UserId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setFavourites(data);
+      } else {
+        setError('Failed to fetch favourites');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    }
+  };
 
   const handleRankChange = (adopterId, rank) => {
     setPreferences({ ...preferences, [adopterId]: rank });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const preferenceList = Object.keys(preferences).map(adopterId => ({
+      adopterId: parseInt(adopterId),
+      rank: preferences[adopterId]
+    }));
+    try {
+      const response = await fetch('http://localhost:3004/adoptee-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ preferences: preferenceList, UserId })
+      });
+
+      if (response.ok) {
+        alert('Preferences saved successfully');
+      } else {
+        setError('Failed to save preferences');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    }
+  };
+
+  function toggleSideBar() {
+    setIsSideBarOpen(!isSideBarOpen);
+  }
+
     return (
         <div className='favourites'>
-            <h2>Favourites</h2>
-            {error && <div className="error">{error}</div>}
-            <ul>
-                {favourites.map(fav => (
+            <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+              <form onSubmit={handleSubmit}>
+              <h2>Favourites</h2>
+              {error && <div className="error">{error}</div>}
+              <ul>
+                  {favourites && favourites.map(fav => (
                     <li key={fav.id}>
                         <div>
                             <h3>{fav.adopter.firstName} {fav.adopter.lastName}</h3>
@@ -61,6 +91,8 @@ const AdopteeFavourites = () => {
                     </li>
                 ))}
             </ul>
+            <button type="submit">Save Preferences</button>
+          </form>
         </div>
     );
 };

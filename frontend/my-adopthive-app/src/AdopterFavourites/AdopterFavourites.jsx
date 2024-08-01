@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../UserContext';
+import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 import './AdopterFavourites.css';
 
 const AdopterFavourites = () => {
@@ -7,6 +8,7 @@ const AdopterFavourites = () => {
   const [favourites, setFavourites] = useState([]);
   const [error, setError] = useState('');
   const [preferences, setPreferences] = useState({});
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   useEffect(() => {
     const fetchFavourites = async () => {
@@ -32,14 +34,44 @@ const AdopterFavourites = () => {
     setPreferences({ ...preferences, [adopteeId]: rank });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const preferenceList = Object.keys(preferences).map(adopteeId => ({
+      adopteeId: parseInt(adopteeId),
+      rank: preferences[adopteeId]
+    }));
+    try {
+      const response = await fetch('http://localhost:3004/adopter-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ preferences: preferenceList, UserId: user.id })
+      });
+
+      if (response.ok) {
+        alert('Preferences saved successfully');
+      } else {
+        setError('Failed to save preferences');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    }
+  };
+
+  function toggleSideBar()  {
+    setIsSideBarOpen(!isSideBarOpen);
+  }
+
     return (
         <div className='favourites'>
+            <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
             <h2>Favourites</h2>
             {error && <div className="error">{error}</div>}
-            <ul>
-                {favourites.map(fav => (
-                    <li key={fav.id}>
-                        <div>
+            <form onSubmit={handleSubmit}>
+              <ul>
+                  {favourites.map(fav => (
+                      <li key={fav.id}>
+                          <div>
                             <h3>{fav.adoptee.firstName} {fav.adoptee.lastName}</h3>
                             <img src={fav.adoptee.photoUrl} alt={`${fav.adoptee.firstName} ${fav.adoptee.lastName}`} />
                             <p>Age: {fav.adoptee.age}</p>
@@ -65,8 +97,10 @@ const AdopterFavourites = () => {
                     </li>
                 ))}
             </ul>
+            <button type="submit">Save Preferences</button>
+          </form>
         </div>
-    );
+      );
 };
 
 export default AdopterFavourites;
