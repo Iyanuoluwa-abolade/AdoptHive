@@ -56,6 +56,7 @@ model Adopter {
   AdopteePreference AdopteePreference[]
   TextScore         TextScore[]
   favourites        Favourite[]
+  matchScore        Float?
 }
 
 model Adoptee {
@@ -81,7 +82,8 @@ model Adoptee {
   preferences AdopteePreference[]
   AdopterPreference AdopterPreference[]
   TextScore         TextScore[]
-  favourites         Favourite[]
+  favourites        Favourite[]
+  matchScore        Float?
 }
 
 model AdopterPreference {
@@ -117,7 +119,7 @@ model TextScore {
 }
 
 model Location {
-  id        Int     @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   latitude   Float?
   longitude  Float?
   geohash    String?
