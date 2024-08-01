@@ -1,27 +1,39 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 
-const favouriteSRouter = express.Router();
+const favouritesRouter = express.Router();
 const prisma = new PrismaClient();
 
-favouriteSRouter.post('/favourites', async (req, res) => {
+favouritesRouter.post('/favourites', async (req, res) => {
     const { UserId, adopterId, adopteeId } = req.body;
-    try {
+    // try {
+    //     const existingFavourite = await prisma.favourite.findUnique({
+    //         where: {
+    //             UserId: parseInt(UserId),
+    //             OR: [
+    //                 { adopterId: parseInt(adopterId) },
+    //                 { adopteeId: parseInt(adopteeId) }
+    //             ]
+    //         }
+    //     });
+    //     if (existingFavourite) {
+    //         return res.status(400).json({ error: 'This adoptee or adopter has already been liked.' });
+    //     }
         const favourite = await prisma.favourite.create({
             data: { UserId, adopterId, adopteeId }
         });
         res.status(201).json(favourite);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    // } catch (error) {
+    //     res.status(500).json({ error: error.message });
+    // }
 });
 
-favouriteSRouter.delete('/favourites/:userId/:profileId', async (req, res) => {
+favouritesRouter.delete('/favourites/:UserId/:profileId', async (req, res) => {
     const { UserId, profileId } = req.params;
     try {
         await prisma.favourite.deleteMany({
             where: {
-                userId: parseInt(UserId),
+                UserId: parseInt(UserId),
                 OR: [{ adopterId: parseInt(profileId) }, { adopteeId: parseInt(profileId) }]
             }
         });
@@ -31,9 +43,12 @@ favouriteSRouter.delete('/favourites/:userId/:profileId', async (req, res) => {
     }
 });
 
-favouriteSRouter.get('/favourites', async (req, res) => {
+favouritesRouter.get('/favourites', async (req, res) => {
     const { userId } = req.query;
-    try {
+    if (!userId || isNaN(parseInt(userId))) {
+        return res.status(400).json({ error: 'User ID is required and must be a number.' });
+    }
+    // try {
         const favourites = await prisma.favourite.findMany({
             where: { UserId: parseInt(userId) },
             include: {
@@ -42,9 +57,9 @@ favouriteSRouter.get('/favourites', async (req, res) => {
             }
         });
         res.status(200).json(favourites);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    // } catch (error) {
+    //     res.status(500).json({ error: error.message });
+    // }
 });
 
-export default favouriteSRouter;
+export default favouritesRouter;
