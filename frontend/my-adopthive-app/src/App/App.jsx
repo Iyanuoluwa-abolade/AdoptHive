@@ -15,6 +15,8 @@ import { UserContext, UserProvider } from '../UserContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AdopteeFavourites from '../AdopteeFavourites/AdopteeFavourites.jsx';
 import AdopterFavourites from '../AdopterFavourites/AdopterFavourites.jsx';
+import AdopterTopMatches from '../AdopterTopMatches/AdopterTopMatches.jsx';
+import AdopteeTopMatches from '../AdopteeTopMatches/AdopteeTopMatches.jsx';
 
 function App() {
   const { user, role } = useContext(UserContext);
@@ -36,6 +38,8 @@ function App() {
           <Route path="/adoptee-home" element={user && role === 'Adoptee' ? <AdopteeHome /> : <Navigate to="/signin" />} />
           <Route path="/adoptee-favourites" element={user && role === 'Adoptee' ? <AdopteeFavourites adopteeId={user.id} /> : <Navigate to="/signin" />} />
           <Route path="/adopter-favourites" element={user && role === 'Adopter' ? <AdopterFavourites adopterId={user.id} /> : <Navigate to="/signin" />} />
+          <Route path="/adoptee-top-match" element={user && role === 'Adoptee' ? <AdopteeTopMatches adopterId={user.id} /> : <Navigate to="/signin" />} />
+          <Route path="/adopter-top-match" element={user && role === 'Adopter' ? <AdopterTopMatches adopterId={user.id} /> : <Navigate to="/signin" />} />
         </Routes>
       </Router>
       <Footer />

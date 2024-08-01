@@ -38,6 +38,12 @@ function AdopterSideBar({isOpen}) {
                             <p>Favourites</p>
                         </Link>
                     </li>
+                    <li className={selectedItem === "adopter-top-matches" ? "selected" : "" }>
+                        <Link to="/adopter-top-match" onClick={() => handleItemClick("adopter-top-matches")}>
+                            <i className='fas fa-people-arrows'></i>
+                            <p>Top Matches</p>
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>

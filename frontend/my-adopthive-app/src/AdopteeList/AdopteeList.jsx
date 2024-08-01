@@ -12,7 +12,6 @@ const AdopteeList = () => {
   const { user } = useContext(UserContext);
   const [matchResult, setMatchResult] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [favourites, setFavourites] = useState([]);
   const { isLoading, startLoading, stopLoading } = useLoading();
   const UserId = user.id
 
@@ -54,39 +53,10 @@ const AdopteeList = () => {
         credentials: 'include',
         body: JSON.stringify({ preferences: preferenceList, UserId })
       });
-
       if (response.ok) {
         alert('Preferences saved successfully');
       } else {
         setError('Failed to save preferences');
-      }
-    } catch (error) {
-      setError('Error: ' + error.message);
-    }
-  };
-
-  const handleLike = async (profileId, isAdoptee) => {
-    try {
-      if (favourites.includes(profileId)) {
-        const response = await fetch(`http://localhost:3004/favourites/${UserId}/${profileId}`, {
-          method: 'DELETE',
-        });
-        if (response.ok) {
-          setFavourites(favourites.filter(id => id !== profileId));
-        } else {
-          setError('Failed to remove from favourites');
-        }
-      } else {
-        const response = await fetch('http://localhost:3004/favourites', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ UserId, adopteeId: isAdoptee ? profileId : null, adopterId: !isAdoptee ? profileId : null })
-        });
-        if (response.ok) {
-          setFavourites([...favourites, profileId]);
-        } else {
-          setError('Failed to add to favourites');
-        }
       }
     } catch (error) {
       setError('Error: ' + error.message);
@@ -147,14 +117,6 @@ const AdopteeList = () => {
                       required
                     />
                   </div>
-                  <i
-                    className={`fa-solid fa-heart ${favourites.includes(adoptee.id) ? 'liked' : ''}`}
-                    onClick={() => handleLike(adoptee.id, true)}
-                    style={{
-                      color: favourites.includes(adoptee.id) ? 'red' : 'gray',
-                      cursor: 'pointer'
-                    }}
-                  />
                 </li>
               ))}
             </ul>
