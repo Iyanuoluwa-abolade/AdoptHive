@@ -7,7 +7,6 @@ const AdopteeFavourites = () => {
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
   const [error, setError] = useState('');
-  const [preferences, setPreferences] = useState({});
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const UserId = user.id
 
@@ -28,34 +27,6 @@ const AdopteeFavourites = () => {
     }
   };
 
-  const handleRankChange = (adopterId, rank) => {
-    setPreferences({ ...preferences, [adopterId]: rank });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const preferenceList = Object.keys(preferences).map(adopterId => ({
-      adopterId: parseInt(adopterId),
-      rank: preferences[adopterId]
-    }));
-    try {
-      const response = await fetch('http://localhost:3004/adoptee-preference', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ preferences: preferenceList, UserId })
-      });
-
-      if (response.ok) {
-        alert('Preferences saved successfully');
-      } else {
-        setError('Failed to save preferences');
-      }
-    } catch (error) {
-      setError('Error: ' + error.message);
-    }
-  };
-
   function toggleSideBar() {
     setIsSideBarOpen(!isSideBarOpen);
   }
@@ -63,7 +34,6 @@ const AdopteeFavourites = () => {
     return (
         <div className='favourites'>
             <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-              <form onSubmit={handleSubmit}>
               <h2>Favourites</h2>
               {error && <div className="error">{error}</div>}
               <ul>
@@ -78,21 +48,10 @@ const AdopteeFavourites = () => {
                             <p>Background: {fav.adopter.background}</p>
                             <p>City: {fav.adopter.city}</p>
                             <p>Country: {fav.adopter.country}</p>
-                            <div className="rank-container">
-                                <label>Rank: </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    onChange={(e) => handleRankChange(fav.adopter.id, parseInt(e.target.value))}
-                                    required
-                                />
-                            </div>
                         </div>
                     </li>
                 ))}
             </ul>
-            <button type="submit">Save Preferences</button>
-          </form>
         </div>
     );
 };
