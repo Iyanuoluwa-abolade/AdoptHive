@@ -28,7 +28,6 @@ const AdopteeTopMatches = () => {
           setError(error.message);
         }
       };
-
       fetchMatches();
     }
   }, [user, showMatches]);

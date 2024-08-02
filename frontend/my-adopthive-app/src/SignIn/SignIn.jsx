@@ -74,7 +74,7 @@ const SignIn = () => {
                 required
               />
               <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
+                icon={showPassword ? faEye : faEyeSlash}
                 className="toggle-password"
                 onClick={togglePasswordVisibility}
               />
