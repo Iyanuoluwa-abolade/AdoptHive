@@ -18,7 +18,6 @@ export async function galeShapley(loggedInUserId, userRole) {
       .filter(preference => preference.adopterId === adopterId)
       .sort((a, b) => b.rank - a.rank)
       .map(preference => preference.adopteeId);
-    console.log(`Adopter ${adopterId} preferences:`, preferences);
     adopterPreferences[adopterId] = preferences;
   }
 
@@ -28,7 +27,6 @@ export async function galeShapley(loggedInUserId, userRole) {
       .filter(preference => preference.adopteeId === adopteeId)
       .sort((a, b) => b.rank - a.rank)
       .map(preference => preference.adopterId);
-    console.log(`Adoptee ${adopteeId} preferences:`, preferences);
     adopteePreferences[adopteeId] = preferences;
   }
 
@@ -38,32 +36,25 @@ export async function galeShapley(loggedInUserId, userRole) {
 
     while (freeUsers.size > 0) {
       for (const userId of freeUsers) {
-        console.log(`Processing userId: ${userId}`);
-        console.log(`Proposer index for ${userId}: ${proposerIndex[userId]}`);
 
         const preferences = userPreferences[userId] || [];
         const index = proposerIndex[userId];
 
         if (index >= preferences.length) {
-          console.error(`Proposer index ${index} is out of bounds for user ${userId}'s preferences`);
-          freeUsers.delete(userId); 
+          freeUsers.delete(userId);
           continue;
         }
 
         const currentOtherUserId = preferences[index];
-        console.log(`Current other user ID: ${currentOtherUserId}`);
-
         proposerIndex[userId]++;
 
         if (currentOtherUserId === undefined) {
-          console.error(`No valid preference found for user ${userId} at index ${index}`);
           freeUsers.delete(userId);
           continue;
         }
 
         const otherUserPrefList = otherUserPreferences[currentOtherUserId];
         if (!otherUserPrefList) {
-          console.error(`No preferences found for user ${currentOtherUserId}`);
           freeUsers.delete(userId);
           continue;
         }
@@ -116,13 +107,11 @@ export async function galeShapley(loggedInUserId, userRole) {
   if (userRole === 'Adopter') {
     const currentAdopter = adopters.find(adopter => adopter.UserId === loggedInUserId);
     if (!currentAdopter) {
-      console.error(`Adopter with UserId ${loggedInUserId} not found`);
       return { error: "Adopter not found" };
     }
 
     const currentAdopterPrefList = adopterPreferences[currentAdopter.id];
     if (!currentAdopterPrefList || currentAdopterPrefList.length === 0) {
-      console.error(`No preferences found for Adopter ${currentAdopter.id}`);
       return await applyCosineSimilarity(currentAdopter, [], 'Adopter');
     }
 
@@ -151,13 +140,11 @@ export async function galeShapley(loggedInUserId, userRole) {
   if (userRole === 'Adoptee') {
     const currentAdoptee = adoptees.find(adoptee => adoptee.UserId === loggedInUserId);
     if (!currentAdoptee) {
-      console.error(`Adoptee with UserId ${loggedInUserId} not found`);
       return { error: "Adoptee not found" };
     }
 
     const currentAdopteePrefList = adopteePreferences[currentAdoptee.id];
     if (!currentAdopteePrefList || currentAdopteePrefList.length === 0) {
-      console.error(`No preferences found for Adoptee ${currentAdoptee.id}`);
       return await applyCosineSimilarity(currentAdoptee, [], 'Adoptee');
     }
 
