@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-import Header from '../Header/Header';
 import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 import Spinner from '../Loading/Loading';
 import useLoading from '../useLoading/useLoading'
@@ -63,7 +62,6 @@ const AdopterProfile = () => {
 
   return (
     <div className='side-container'>
-      <Header/>
       <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       {isLoading ? (
         <Spinner />

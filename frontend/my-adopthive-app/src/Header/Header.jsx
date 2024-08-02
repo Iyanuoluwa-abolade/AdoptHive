@@ -3,6 +3,7 @@ import Profile from "../Profile/Profile";
 import { useState, useContext } from "react";
 import { UserContext } from '../UserContext';
 import { Link } from 'react-router-dom';
+
 const Header = () => {
     const [ showProfile, setShowProfile ] = useState(false);
     const { user } = useContext(UserContext);

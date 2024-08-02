@@ -21,12 +21,10 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     if (Password !== ConfirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
     try {
       const response = await fetch('http://localhost:3004/signup', {
         method: 'POST',

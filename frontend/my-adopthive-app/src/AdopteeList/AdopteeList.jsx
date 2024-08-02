@@ -1,36 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './AdopteeList.css';
-import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
+import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 import Spinner from '../Loading/Loading';
 import useLoading from '../useLoading/useLoading';
+import { UserContext } from '../UserContext';
 
 const AdopteeList = () => {
   const [adoptees, setAdoptees] = useState([]);
   const [preferences, setPreferences] = useState({});
   const [error, setError] = useState('');
+  const { user } = useContext(UserContext);
   const [matchResult, setMatchResult] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const { isLoading, startLoading, stopLoading } = useLoading();
+  const UserId = user.id
 
   useEffect(() => {
     startLoading();
-    const fetchAdoptees = async () => {
-      try {
-        const response = await fetch('http://localhost:3004/adoptee');
-        if (response.ok) {
-          const data = await response.json();
-          setAdoptees(data);
-        } else {
-          setError('Failed to fetch adopters');
-        }
-      } catch (error) {
-        setError('Error: ' + error.message);
-      } finally {
-        stopLoading();
-      }
-    };
     fetchAdoptees();
   }, []);
+
+  const fetchAdoptees = async () => {
+    try {
+      const response = await fetch('http://localhost:3004/adoptee');
+      if (response.ok) {
+        const data = await response.json();
+        setAdoptees(data);
+      } else {
+        setError('Failed to fetch adopters');
+      }
+    } catch (error) {
+      setError('Error: ' + error.message);
+    } finally {
+      stopLoading();
+    }
+  };
 
   const handleRankChange = (adopteeId, rank) => {
     setPreferences({ ...preferences, [adopteeId]: rank });
@@ -39,18 +43,16 @@ const AdopteeList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const preferenceList = Object.keys(preferences).map(adopteeId => ({
-      adopterId: parseInt(adopteeId),
+      adopteeId: parseInt(adopteeId),
       rank: preferences[adopteeId]
     }));
-
     try {
       const response = await fetch('http://localhost:3004/adopter-preference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ preferences: preferenceList })
+        body: JSON.stringify({ preferences: preferenceList, UserId })
       });
-
       if (response.ok) {
         alert('Preferences saved successfully');
       } else {
@@ -62,7 +64,6 @@ const AdopteeList = () => {
   };
 
   const handleRunMatching = async () => {
-
     try {
       const response = await fetch('http://localhost:3004/run-matching', {
         credentials: 'include',
@@ -84,9 +85,9 @@ const AdopteeList = () => {
 
   return (
     <div className='adoptee-list-container'>
-      <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       {isLoading ? (
-      <Spinner />
+        <Spinner />
       ) : (
         <>
           {error && <div className="error">{error}</div>}
@@ -104,7 +105,9 @@ const AdopteeList = () => {
                   <p>Interests: {adoptee.interests}</p>
                   <p>Education: {adoptee.education}</p>
                   <p>Traits: {adoptee.traits}</p>
-                <p>Dreams: {adoptee.dreams}</p>
+                  <p>Dreams: {adoptee.dreams}</p>
+                  <p>City: {adoptee.city}</p>
+                  <p>Country: {adoptee.country}</p>
                   <div className="rank-container">
                     <label>Rank: </label>
                     <input

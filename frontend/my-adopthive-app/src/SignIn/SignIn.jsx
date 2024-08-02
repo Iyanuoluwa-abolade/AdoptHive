@@ -16,12 +16,10 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
     if (!Username || !Password) {
       setError('Please enter a username and password');
       return;
     }
-
     try {
       setLoading(true);
 
