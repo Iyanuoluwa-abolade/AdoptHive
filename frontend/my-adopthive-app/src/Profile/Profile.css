@@ -12,26 +12,56 @@
   z-index: 1000;
 }
 
-.profile-image-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: black;
-  justify-content: center;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  background-color: #333;
-  cursor: pointer;
+.profile-image-upload {
+  display: block;
   margin-bottom: 10px;
+  position: relative;
 }
 
-.profile-image-placeholder img,
-.profile img {
+.profile-image {
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  object-fit: cover; 
+  background-color: #f0f0f0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.profile-image::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=800');
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.profile-image.has-image::before {
+  content: none;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.camera-icon {
+  font-size: 24px;
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; 
 }
 
 .profile p {
@@ -42,7 +72,7 @@
 
 .profile input {
   margin-top: 10px;
-  display: block;
+  display: none;
 }
 
 .profile button {
@@ -57,9 +87,11 @@
 
 .profile button:hover {
   background-color: #333;
+  color: white;
 }
 
 .profile button:disabled {
   background-color: #666;
+  color: white;
   cursor: not-allowed;
 }

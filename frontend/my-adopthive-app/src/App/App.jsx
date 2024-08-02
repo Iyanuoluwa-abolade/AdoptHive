@@ -10,7 +10,6 @@ import AdopterList from '../AdopterList/AdopterList.jsx';
 import AdopteeHome from '../AdopteeHome/AdopteeHome.jsx';
 import AdopterHome from '../AdopterHome/AdopterHome.jsx';
 import { useContext } from 'react';
-import './App.css';
 import { UserContext, UserProvider } from '../UserContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AdopteeFavourites from '../AdopteeFavourites/AdopteeFavourites.jsx';

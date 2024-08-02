@@ -6,7 +6,7 @@
     height: 100vh;
     text-align: center;
     position: relative;
-    background-image: url(https://images.pexels.com/photos/8799247/pexels-photo-8799247.jpeg);
+    background-image: url('https://images.pexels.com/photos/8799247/pexels-photo-8799247.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
 }

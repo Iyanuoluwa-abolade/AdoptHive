@@ -7,14 +7,13 @@ import { FiCamera } from "react-icons/fi";
 function Profile() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [setVideoStream] = useState(null);
 
   function handleLogout() {
     localStorage.removeItem("user");
-    setIsOpen(false)
+    setIsOpen(false);
     navigate("/signin");
   }
 
@@ -34,50 +33,49 @@ function Profile() {
   function takePhoto() {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
-        setVideoStream(stream);
         const video = document.createElement('video');
         video.srcObject = stream;
         video.play();
         const canvas = document.createElement('canvas');
-        canvas.width = 50;
-        canvas.height = 50;
+        canvas.width = 100;
+        canvas.height = 100;
         const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, 640, 480);
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = canvas.toDataURL('image/jpeg');
         setImageUrl(imageData);
+        stream.getTracks().forEach(track => track.stop());
       })
       .catch(error => {
         return ('Error taking photo:', error);
       });
   }
-return(
-  <>
+
+  return (
+    <>
       {isOpen && (
         <div className="profile">
           <div>
             <label className="profile-image-upload">
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt="Uploaded Image"
-                  className="profile-image"
-                />
-              ) : (
-                <div className="profile-image-placeholder">
-                  <FiCamera className="camera-icon" onClick={takePhoto} />
-                </div>
-              )}
+              <div
+                className={`profile-image ${imageUrl ? 'has-image' : ''}`}
+                style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : '' }}
+              >
+                {!imageUrl && (
+                  <div className="profile-image-placeholder">
+                    <FiCamera className="camera-icon" onClick={takePhoto} />
+                  </div>
+                )}
+              </div>
               <input
                 type="file"
                 accept="image/*"
                 capture="camera"
                 onChange={handleFileInput}
-                style={{ display: 'none' }} 
+                style={{ display: 'none' }}
               />
             </label>
             <p>User: {user.FirstName}</p>
             <p>Role: {user.role}</p>
-
             {selectedFile && !imageUrl && (
               <button onClick={handleUpload}>Upload File</button>
             )}
@@ -88,6 +86,5 @@ return(
     </>
   );
 }
-
 
 export default Profile;
