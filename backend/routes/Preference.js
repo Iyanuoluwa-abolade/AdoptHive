@@ -26,16 +26,13 @@ preferenceRouter.get('/adopter', isAuthenticated, async (req, res) => {
 preferenceRouter.post('/adopter-preference', isAuthenticated, async (req, res) => {
   const { preferences } = req.body;
   const userId = req.session.user.id;
-
   if (!Array.isArray(preferences)) {
     return res.status(400).json({ message: 'preferences must be an array' });
   }
-
   const adopter = await prisma.adopter.findUnique({ where: { UserId: userId } });
   if (!adopter) {
     return res.status(400).json({ message: 'Invalid adopter ID' });
   }
-
   try {
     await prisma.$transaction(
       preferences.map(pref => prisma.adopterPreference.upsert({
@@ -66,12 +63,10 @@ preferenceRouter.post('/adoptee-preference', isAuthenticated, async (req, res) =
   if (!Array.isArray(preferences)) {
     return res.status(400).json({ message: 'preferences must be an array' });
   }
-
   const adoptee = await prisma.adoptee.findUnique({ where: { UserId: userId } });
   if (!adoptee) {
     return res.status(400).json({ message: 'Invalid adoptee ID' });
   }
-
   try {
     await prisma.$transaction(
       preferences.map(pref => prisma.adopteePreference.upsert({

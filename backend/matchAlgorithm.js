@@ -169,6 +169,5 @@ export async function galeShapley(loggedInUserId, userRole) {
       return await applyCosineSimilarity(currentAdoptee, currentAdopteePrefList, 'Adoptee');
     }
   }
-
   return { error: "Invalid user role or user not found" };
 }
