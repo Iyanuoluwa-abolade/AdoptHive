@@ -34,32 +34,36 @@ const AdopterFavourites = () => {
   }
 
     return (
-        <div className='favourites'>
-            <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-            <h2>Favourites</h2>
-            {error && <div className="error">{error}</div>}
-              <ul>
-                  {favourites.map(fav => (
-                      <li key={fav.id}>
-                          <div>
-                            <h3>{fav.adoptee.firstName} {fav.adoptee.lastName}</h3>
-                            <img src={fav.adoptee.photoUrl} alt={`${fav.adoptee.firstName} ${fav.adoptee.lastName}`} />
-                            <p>Age: {fav.adoptee.age}</p>
-                            <p>Sex: {fav.adoptee.sex}</p>
-                            <p>Birthdate: {fav.adoptee.birthdate}</p>
-                            <p>Background: {fav.adoptee.background}</p>
-                            <p>Interests: {fav.adoptee.interests}</p>
-                            <p>Education: {fav.adoptee.education}</p>
-                            <p>Traits: {fav.adoptee.traits}</p>
-                            <p>Dreams: {fav.adoptee.dreams}</p>
-                            <p>City: {fav.adoptee.city}</p>
-                            <p>Country: {fav.adoptee.country}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-      );
+      <div className='container'>
+      <div className='sidebar'>
+        <AdopterSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      </div>
+      <div className='favourites'>
+        <h2>Favourites</h2>
+        {error && <div className="error">{error}</div>}
+        <ul>
+          {favourites.map(fav => (
+            <li key={fav.id}>
+              <div>
+                <h3>{fav.adoptee.firstName} {fav.adoptee.lastName}</h3>
+                <img src={fav.adoptee.photoUrl} alt={`${fav.adoptee.firstName} ${fav.adoptee.lastName}`} />
+                <p>Age: {fav.adoptee.age}</p>
+                <p>Sex: {fav.adoptee.sex}</p>
+                <p>Birthdate: {fav.adoptee.birthdate}</p>
+                <p>Background: {fav.adoptee.background}</p>
+                <p>Interests: {fav.adoptee.interests}</p>
+                <p>Education: {fav.adoptee.education}</p>
+                <p>Traits: {fav.adoptee.traits}</p>
+                <p>Dreams: {fav.adoptee.dreams}</p>
+                <p>City: {fav.adoptee.city}</p>
+                <p>Country: {fav.adoptee.country}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default AdopterFavourites;

@@ -32,28 +32,32 @@ const AdopteeFavourites = () => {
   }
 
     return (
-        <div className='favourites'>
-            <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-              <h2>Favourites</h2>
-              {error && <div className="error">{error}</div>}
-              <ul>
-                  {favourites && favourites.map(fav => (
-                    <li key={fav.id}>
-                        <div>
-                            <h3>{fav.adopter.firstName} {fav.adopter.lastName}</h3>
-                            <img src={fav.adopter.photoUrl} alt={`${fav.adopter.firstName} ${fav.adopter.lastName}`} />
-                            <p>Age: {fav.adopter.age}</p>
-                            <p>Sex: {fav.adopter.sex}</p>
-                            <p>Status: {fav.adopter.status}</p>
-                            <p>Background: {fav.adopter.background}</p>
-                            <p>City: {fav.adopter.city}</p>
-                            <p>Country: {fav.adopter.country}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+      <div className='container'>
+      <div className='sidebar'>
+        <AdopteeSideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      </div>
+      <div className='favourites'>
+        <h2>Favourites</h2>
+        {error && <div className="error">{error}</div>}
+        <ul>
+          {favourites && favourites.map(fav => (
+            <li key={fav.id}>
+              <div>
+                <h3>{fav.adopter.firstName} {fav.adopter.lastName}</h3>
+                <img src={fav.adopter.photoUrl} alt={`${fav.adopter.firstName} ${fav.adopter.lastName}`} />
+                <p>Age: {fav.adopter.age}</p>
+                <p>Sex: {fav.adopter.sex}</p>
+                <p>Status: {fav.adopter.status}</p>
+                <p>Background: {fav.adopter.background}</p>
+                <p>City: {fav.adopter.city}</p>
+                <p>Country: {fav.adopter.country}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default AdopteeFavourites;
