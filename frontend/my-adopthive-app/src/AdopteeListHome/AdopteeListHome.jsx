@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import './AdopteeListHome.css';
 import { UserContext } from '../UserContext';
 
-const AdopteeListHome = () => {
+const AdopteeListHome = ({ searchQuery }) => {
   const [adoptees, setAdoptees] = useState([]);
+  const [filteredAdoptees, setFilteredAdoptees] = useState([]);
   const [error, setError] = useState('');
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
-  const UserId = user.id
+  const UserId = user.id;
 
   useEffect(() => {
     const fetchAdoptees = async () => {
@@ -18,12 +20,20 @@ const AdopteeListHome = () => {
         }
         const data = await response.json();
         setAdoptees(data);
+        setFilteredAdoptees(data);
       } catch (error) {
         setError('Error: ' + error.message);
       }
     };
     fetchAdoptees();
   }, []);
+
+  useEffect(() => {
+    const results = adoptees.filter(adoptee =>
+      `${adoptee.firstName} ${adoptee.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredAdoptees(results);
+  }, [searchQuery, adoptees]);
 
   const handleLike = async (profileId, isAdoptee) => {
     try {
@@ -57,8 +67,8 @@ const AdopteeListHome = () => {
   return (
     <div className="adoptee-list">
       {error && <div className="error">{error}</div>}
-      {adoptees.length > 0 ? (
-        adoptees.map((adoptee) => (
+      {filteredAdoptees.length > 0 ? (
+        filteredAdoptees.map((adoptee) => (
           <div key={adoptee.id} className="adoptee-details">
             <img
               src={adoptee.photoUrl}
@@ -85,6 +95,11 @@ const AdopteeListHome = () => {
       )}
     </div>
   );
+};
+
+
+AdopteeListHome.propTypes = {
+  searchQuery: PropTypes.string.isRequired, 
 };
 
 export default AdopteeListHome;

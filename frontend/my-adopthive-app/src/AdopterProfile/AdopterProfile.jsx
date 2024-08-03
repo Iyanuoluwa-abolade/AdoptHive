@@ -67,6 +67,7 @@ const AdopterProfile = () => {
         <Spinner />
       ) : (
         <form onSubmit={handleSubmit}>
+          <h3>Edit Profile</h3>
           <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" required />
           <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" required />
           <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" required />

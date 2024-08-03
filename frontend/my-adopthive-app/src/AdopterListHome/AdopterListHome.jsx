@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import './AdopterListHome.css';
 import { UserContext } from '../UserContext';
 
-const AdopterListHome = () => {
+const AdopterListHome = ({ searchQuery }) => {
   const [adopters, setAdopters] = useState([]);
+  const [filteredAdopters, setFilteredAdopters] = useState([]);
   const [error, setError] = useState('');
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
-  const UserId = user.id
+  const UserId = user.id;
 
   useEffect(() => {
     const fetchAdopters = async () => {
@@ -18,12 +20,20 @@ const AdopterListHome = () => {
         }
         const data = await response.json();
         setAdopters(data);
+        setFilteredAdopters(data);
       } catch (error) {
         setError('Error: ' + error.message);
       }
     };
     fetchAdopters();
   }, []);
+
+  useEffect(() => {
+    const results = adopters.filter(adopter =>
+      `${adopter.firstName} ${adopter.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredAdopters(results);
+  }, [searchQuery, adopters]);
 
   const handleLike = async (profileId, isAdopter) => {
     try {
@@ -56,17 +66,17 @@ const AdopterListHome = () => {
   return (
     <div className="adopter-list">
       {error && <div className="error">{error}</div>}
-      {adopters.length > 0 ? (
-        adopters.map((adopter) => (
+      {filteredAdopters.length > 0 ? (
+        filteredAdopters.map((adopter) => (
           <div key={adopter.id} className="adopter-details">
             <img src={adopter.photoUrl} alt={`${adopter.firstName} ${adopter.lastName}`} />
             <div className='adopter-info'>
-                <h3>
-                    {adopter.firstName} {adopter.lastName}
-                </h3>
+              <h3>
+                {adopter.firstName} {adopter.lastName}
+              </h3>
             </div>
             <div className='adopter-age'>
-                <p> {adopter.age}, {adopter.status} </p>
+              <p> {adopter.age}, {adopter.status} </p>
             </div>
             <i
               className={`fa-solid fa-heart ${favourites.includes(adopter.id) ? 'liked' : ''}`}
@@ -84,4 +94,9 @@ const AdopterListHome = () => {
     </div>
   );
 };
+
+AdopterListHome.propTypes = {
+  searchQuery: PropTypes.string.isRequired, 
+};
+
 export default AdopterListHome;

@@ -1,0 +1,228 @@
+{
+    "user": [
+      {
+        "FirstName": "Joy",
+        "LastName": "Itodo",
+        "email": "joyoneh.15@gmail.com",
+        "Username": "joy",
+        "Password": "1234",
+        "role": "Adopter"
+      },
+      {
+        "FirstName": "Daniel",
+        "LastName": "Smith",
+        "email": "smithd@gmail.com",
+        "Username": "daniel",
+        "Password": "1234",
+        "role": "Adopter"
+      },
+      {
+        "FirstName": "Iyanu",
+        "LastName": "Fagbamila",
+        "email": "fagbamilaiyanu@gmail.com",
+        "Username": "iyanu",
+        "Password": "1234",
+        "role": "Adopter"
+      },
+      {
+        "FirstName": "Luke",
+        "LastName": "Micheal",
+        "email": "fagbamilaayo@gmail.com",
+        "Username": "ayo",
+        "Password": "1234",
+        "role": "Adoptee"
+      },
+      {
+        "FirstName": "Gabriella",
+        "LastName": "Toby",
+        "email": "tobygabriella8@gmail.com",
+        "Username": "gabriella",
+        "Password": "1234",
+        "role": "Adoptee"
+      },
+      {
+        "FirstName": "Zara",
+        "LastName": "Duruji",
+        "email": "zduruji@gmail.com",
+        "Username": "zara",
+        "Password": "1234",
+        "role": "Adoptee"
+      },
+      {
+        "FirstName": "Destiny",
+        "LastName": "Okonkwo",
+        "email": "duokonkwo.unc@gmail.com",
+        "Username": "destiny",
+        "Password": "1234",
+        "role": "Adopter"
+      },
+      {
+        "FirstName": "Dara",
+        "LastName": "Oyedun",
+        "email": "darasimioyedun095@gmail.com",
+        "Username": "dara",
+        "Password": "1234",
+        "role": "Adoptee"
+      },
+      {
+        "FirstName": "Femi",
+        "LastName": "Oduola",
+        "email": "obafemi571@gmail.com",
+        "Username": "femi",
+        "Password": "1234",
+        "role": "Adoptee"
+      },
+      {
+        "FirstName": "Joshua",
+        "LastName": "Mark",
+        "email": "markj@gmail.com",
+        "Username": "joshua",
+        "Password": "1234",
+        "role": "Adopter"
+      }
+    ],
+    "Adopter": [
+      {
+        "firstName": "Joy",
+        "lastName": "Itodo",
+        "age": 30,
+        "sex": "Female",
+        "status": "Single",
+        "photoUrl": "https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&w=800",
+        "background": "Joy is an artist",
+        "city": "Redwood",
+        "country": "USA",
+        "UserId": 1
+      },
+      {
+        "firstName": "Daniel",
+        "lastName": "Smith",
+        "age": 50,
+        "sex": "Male",
+        "status": "married",
+        "photoUrl": "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Daniel is a retired firefighter",
+        "city": "San Jose",
+        "country": "USA",
+        "UserId": 2
+      },
+      {
+        "firstName": "Iyanu",
+        "lastName": "Fagbamila",
+        "age": 35,
+        "sex": "Female",
+        "status": "Single",
+        "photoUrl": "https://images.pexels.com/photos/160414/female-portrait-studio-attractive-160414.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Iyanu is software engineer",
+        "city": "San Diego",
+        "country": "USA",
+        "UserId": 3
+      },
+      {
+        "firstName": "Destiny",
+        "lastName": "Okonkwo",
+        "age": 45,
+        "sex": "Female",
+        "status": "married",
+        "photoUrl": "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "background": "Destiny is a teacher",
+        "city": "Sunnyvale",
+        "country": "USA",
+        "UserId": 7
+      },
+      {
+        "firstName": "Joshua",
+        "lastName": "Mark",
+        "age": 32,
+        "sex": "Male",
+        "status": "Single",
+        "photoUrl": "https://images.pexels.com/photos/1181391/pexels-photo-1181391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "background": "Joshua is a medical doctor",
+        "city": "Sacramento",
+        "country": "USA",
+        "UserId": 10
+      }
+    ],
+    "Adoptee": [
+      {
+        "firstName": "Luke",
+        "lastName": "Micheal",
+        "age": 6,
+        "sex": "Male",
+        "birthdate": "2018-07-22",
+        "photoUrl": "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Luke has been in the orphanage since birth",
+        "interests": "Luke loves drawing",
+        "education": "Attends Redwood elementary school",
+        "traits": "artistic, playful, smart",
+        "dreams": "Luke wants to become an artist",
+        "city": "Redwood",
+        "country": "USA",
+        "UserId": 4
+      },
+      {
+        "firstName": "Gabriella",
+        "lastName": "Toby",
+        "age": 10,
+        "sex": "Female",
+        "birthdate": "2014-02-12",
+        "photoUrl": "https://images.pexels.com/photos/774091/pexels-photo-774091.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Gabriella was brought into the orphanage at age 3",
+        "interests": "Gabriella loves reading",
+        "education": "Attends Sunnyvale middle school",
+        "traits": "curious, intelligent, kind",
+        "dreams": "Gabriella wants to become a teacher",
+        "city": "Sunnyvale",
+        "country": "USA",
+        "UserId": 5
+      },
+      {
+        "firstName": "zara",
+        "lastName": "Duruji",
+        "age": 8,
+        "sex": "Female",
+        "birthdate": "2016-06-29",
+        "photoUrl": "https://images.pexels.com/photos/24797012/pexels-photo-24797012/free-photo-of-girl-in-braids-posing-on-a-wooden-board.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Zara has been in the orphanage since age 2",
+        "interests": "hiking, yoga, swimming",
+        "education": "Attends San Jose middle school",
+        "traits": "determined, curious, caring",
+        "dreams": "Zara wants to become a firefighter",
+        "city": "San Jose",
+        "country": "USA",
+        "UserId": 6
+      },
+      {
+        "firstName": "Dara",
+        "lastName": "Oyedun",
+        "age": 4,
+        "sex": "Female",
+        "birthdate": "2020-05-01",
+        "photoUrl": "https://images.pexels.com/photos/5727982/pexels-photo-5727982.jpeg",
+        "background": "Dara has been in the orphanage since birth",
+        "interests": "singing, reading, playing violin",
+        "education": "Attends Sacramento middle school",
+        "traits": "quiet, cheerful, smart",
+        "dreams": "Dara wants to become a doctor",
+        "city": "Sacramento",
+        "country": "USA",
+        "UserId": 8
+      },
+      {
+        "firstName": "Femi",
+        "lastName": "Oduola",
+        "age": 12,
+        "sex": "Male",
+        "birthdate": "2012-03-16",
+        "photoUrl": "https://images.pexels.com/photos/1288182/pexels-photo-1288182.jpeg?auto=compress&cs=tinysrgb&w=600",
+        "background": "Femi has been in the orphanage since age 7",
+        "interests": "playing basketball, robotics, hiking",
+        "education": "Attends San Diego high school",
+        "traits": "Intelligent, playful, curious",
+        "dreams": "Femi wants to become a software Engineer",
+        "city": "San Diego",
+        "country": "USA",
+        "UserId": 9
+      }
+    ]
+}

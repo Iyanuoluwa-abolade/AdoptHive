@@ -19,6 +19,5 @@ export async function fetchCosineSimilarity(text1, text2) {
   if (!response.ok) {
     throw new Error('Failed to fetch similarity score');
   }
-
   return data;
 }

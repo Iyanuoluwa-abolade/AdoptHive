@@ -16,7 +16,6 @@ router.post('/signup', async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ error: 'Username already taken' });
       }
-
       const hashedPassword = await bcrypt.hash(Password, saltRounds);
       const newUser = await prisma.user.create({
         data: {

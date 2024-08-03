@@ -10,6 +10,7 @@ function AdopterHome() {
   const { user } = useContext(UserContext);
   const [isNewUser, setIsNewUser] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   function toggleSideBar() {
@@ -37,7 +38,7 @@ function AdopterHome() {
 
   return (
     <div className="home-container">
-      {isLoading ? ( 
+      {isLoading ? (
         <Spinner />
       ) : (
         user && (
@@ -49,7 +50,14 @@ function AdopterHome() {
               ) : (
                 <h1>Welcome back, {user.FirstName}!</h1>
               )}
-              <AdopteeListHome />
+              <input
+                type="text"
+                placeholder="Search adoptees by name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <AdopteeListHome searchQuery={searchQuery} />
             </div>
           </div>
         )

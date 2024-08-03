@@ -96,6 +96,6 @@ async function startGeohashing() {
     } catch (error) {
     }
 }
-
 startGeohashing();
+
 export default {startGeohashing};

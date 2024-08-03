@@ -10,6 +10,7 @@ function AdopteeHome() {
   const { user } = useContext(UserContext);
   const [isNewUser, setIsNewUser] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // Added state for search query
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   function toggleSideBar() {
@@ -28,7 +29,7 @@ function AdopteeHome() {
           setIsNewUser(false);
         }
       } catch (error) {
-        return('Error fetching user data:', error);
+        return ('Error fetching user data:', error);
       } finally {
         stopLoading();
       }
@@ -50,7 +51,14 @@ function AdopteeHome() {
               ) : (
                 <h1>Welcome back, {user.FirstName}!</h1>
               )}
-              <AdopterListHome />
+              <input
+                type="text"
+                placeholder="Search adopters by name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <AdopterListHome searchQuery={searchQuery} />
             </div>
           </div>
         )

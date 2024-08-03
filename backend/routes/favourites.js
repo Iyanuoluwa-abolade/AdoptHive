@@ -6,26 +6,14 @@ const prisma = new PrismaClient();
 
 favouritesRouter.post('/favourites', async (req, res) => {
     const { UserId, adopterId, adopteeId } = req.body;
-    // try {
-    //     const existingFavourite = await prisma.favourite.findUnique({
-    //         where: {
-    //             UserId: parseInt(UserId),
-    //             OR: [
-    //                 { adopterId: parseInt(adopterId) },
-    //                 { adopteeId: parseInt(adopteeId) }
-    //             ]
-    //         }
-    //     });
-    //     if (existingFavourite) {
-    //         return res.status(400).json({ error: 'This adoptee or adopter has already been liked.' });
-    //     }
+    try {
         const favourite = await prisma.favourite.create({
             data: { UserId, adopterId, adopteeId }
         });
         res.status(201).json(favourite);
-    // } catch (error) {
-    //     res.status(500).json({ error: error.message });
-    // }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 favouritesRouter.delete('/favourites/:UserId/:profileId', async (req, res) => {
@@ -48,7 +36,7 @@ favouritesRouter.get('/favourites', async (req, res) => {
     if (!userId || isNaN(parseInt(userId))) {
         return res.status(400).json({ error: 'User ID is required and must be a number.' });
     }
-    // try {
+    try {
         const favourites = await prisma.favourite.findMany({
             where: { UserId: parseInt(userId) },
             include: {
@@ -57,9 +45,9 @@ favouritesRouter.get('/favourites', async (req, res) => {
             }
         });
         res.status(200).json(favourites);
-    // } catch (error) {
-    //     res.status(500).json({ error: error.message });
-    // }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 export default favouritesRouter;

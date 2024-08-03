@@ -24,7 +24,6 @@ const Header = () => {
         <Link to="/signin">
          <button>Sign in</button>
         </Link>
-
       )}
     </div>
   );
