@@ -1,4 +1,6 @@
+
 import { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { UserContext } from '../UserContext';
 import AdopterSideBar from '../AdopterSideBar/AdopterSideBar';
 import AdopteeListHome from '../AdopteeListHome/AdopteeListHome';
@@ -6,7 +8,7 @@ import Spinner from '../Loading/Loading';
 import useLoading from '../useLoading/useLoading';
 import './AdopterHome.css';
 
-function AdopterHome() {
+function AdopterHome({ setReceiverId }) {
   const { user } = useContext(UserContext);
   const [isNewUser, setIsNewUser] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -29,7 +31,6 @@ function AdopterHome() {
       } else {
         setIsNewUser(false);
       }
-
       stopLoading();
     };
 
@@ -57,7 +58,7 @@ function AdopterHome() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
-              <AdopteeListHome searchQuery={searchQuery} />
+              <AdopteeListHome searchQuery={searchQuery} setReceiverId={setReceiverId} />
             </div>
           </div>
         )
@@ -66,4 +67,9 @@ function AdopterHome() {
   );
 }
 
+AdopterHome.propTypes = {
+  setReceiverId: PropTypes.func.isRequired,
+};
+
 export default AdopterHome;
+
