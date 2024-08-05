@@ -1,14 +1,17 @@
+
 import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './AdopterListHome.css';
 import { UserContext } from '../UserContext';
+import Chat from '../Chat/Chat';
 
-const AdopterListHome = ({ searchQuery }) => {
+const AdopterListHome = ({ searchQuery, setReceiverId }) => {
   const [adopters, setAdopters] = useState([]);
   const [filteredAdopters, setFilteredAdopters] = useState([]);
   const [error, setError] = useState('');
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
+  const [selectedAdopter, setSelectedAdopter] = useState(null);
   const UserId = user.id;
 
   useEffect(() => {
@@ -63,6 +66,11 @@ const AdopterListHome = ({ searchQuery }) => {
     }
   };
 
+  const handleChatOpen = (adopter) => {
+    setSelectedAdopter(adopter);
+    setReceiverId(adopter.id);
+  };
+
   return (
     <div className="adopter-list">
       {error && <div className="error">{error}</div>}
@@ -76,7 +84,7 @@ const AdopterListHome = ({ searchQuery }) => {
               </h3>
             </div>
             <div className='adopter-age'>
-              <p> {adopter.age}, {adopter.status} </p>
+              <p>{adopter.age}, {adopter.status}</p>
             </div>
             <i
               className={`fa-solid fa-heart ${favourites.includes(adopter.id) ? 'liked' : ''}`}
@@ -86,17 +94,28 @@ const AdopterListHome = ({ searchQuery }) => {
                 cursor: 'pointer'
               }}
             />
+            <i
+              className="fa-solid fa-comment"
+              onClick={() => handleChatOpen(adopter)}
+              style={{
+                color: 'blue',
+                cursor: 'pointer',
+                marginLeft: '10px'
+              }}
+            />
           </div>
         ))
       ) : (
         <p>No adopters found</p>
       )}
+      {selectedAdopter && <Chat receiverId={selectedAdopter.id} />}
     </div>
   );
 };
 
 AdopterListHome.propTypes = {
-  searchQuery: PropTypes.string.isRequired, 
+  searchQuery: PropTypes.string.isRequired,
+  setReceiverId: PropTypes.func.isRequired,
 };
 
 export default AdopterListHome;

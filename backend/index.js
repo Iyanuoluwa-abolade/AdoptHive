@@ -14,6 +14,8 @@ import SequelizeStoreInit from 'connect-session-sequelize';
 import matchRouter from './routes/matchRouter.js';
 import favouritesRouter from './routes/favourites.js';
 import matchScoreRouter from './routes/matchScore.js';
+import http from 'http';
+import {initSocket}  from './socket.js'
 
 const app = express();
 const port = 3004;
@@ -70,5 +72,8 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
-app.listen(port, () => {
+const server = http.createServer(app);
+initSocket(server);
+
+server.listen(port, () => {
 });

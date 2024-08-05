@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { UserContext } from '../UserContext';
 import AdopteeSideBar from '../AdopteeSideBar/AdopteeSideBar';
 import AdopterListHome from '../AdopterListHome/AdopterListHome';
@@ -6,11 +7,11 @@ import Spinner from '../Loading/Loading';
 import useLoading from '../useLoading/useLoading';
 import './AdopteeHome.css';
 
-function AdopteeHome() {
+function AdopteeHome({ setReceiverId }) {
   const { user } = useContext(UserContext);
   const [isNewUser, setIsNewUser] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); // Added state for search query
+  const [searchQuery, setSearchQuery] = useState('');
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   function toggleSideBar() {
@@ -18,23 +19,22 @@ function AdopteeHome() {
   }
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const checkUserStatus = () => {
       startLoading();
-      try {
-        const storedUser = localStorage.getItem('user');
-        const storedUserObject = storedUser ? JSON.parse(storedUser) : null;
-        if (user !== null && storedUserObject === null) {
-          setIsNewUser(true);
-        } else {
-          setIsNewUser(false);
-        }
-      } catch (error) {
-        return ('Error fetching user data:', error);
-      } finally {
-        stopLoading();
+
+      const storedUser = localStorage.getItem('user');
+      const storedUserObject = storedUser ? JSON.parse(storedUser) : null;
+
+      if (user !== null && storedUserObject === null) {
+        setIsNewUser(true);
+      } else {
+        setIsNewUser(false);
       }
+
+      stopLoading();
     };
-    fetchUserData();
+
+    checkUserStatus();
   }, [user, startLoading, stopLoading]);
 
   return (
@@ -58,7 +58,7 @@ function AdopteeHome() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
-              <AdopterListHome searchQuery={searchQuery} />
+              <AdopterListHome searchQuery={searchQuery} setReceiverId={setReceiverId} />
             </div>
           </div>
         )
@@ -66,5 +66,9 @@ function AdopteeHome() {
     </div>
   );
 }
+
+AdopteeHome.propTypes = {
+  setReceiverId: PropTypes.func.isRequired,
+};
 
 export default AdopteeHome;

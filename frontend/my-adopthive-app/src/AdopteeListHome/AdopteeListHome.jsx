@@ -2,13 +2,15 @@ import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './AdopteeListHome.css';
 import { UserContext } from '../UserContext';
+import Chat from '../Chat/Chat';
 
-const AdopteeListHome = ({ searchQuery }) => {
+const AdopteeListHome = ({ searchQuery, setReceiverId }) => {
   const [adoptees, setAdoptees] = useState([]);
   const [filteredAdoptees, setFilteredAdoptees] = useState([]);
   const [error, setError] = useState('');
   const { user } = useContext(UserContext);
   const [favourites, setFavourites] = useState([]);
+  const [selectedAdoptee, setSelectedAdoptee] = useState(null);
   const UserId = user.id;
 
   useEffect(() => {
@@ -64,6 +66,11 @@ const AdopteeListHome = ({ searchQuery }) => {
     }
   };
 
+  const handleChatOpen = (adoptee) => {
+    setSelectedAdoptee(adoptee);
+    setReceiverId(adoptee.id);
+  };
+
   return (
     <div className="adoptee-list">
       {error && <div className="error">{error}</div>}
@@ -88,18 +95,30 @@ const AdopteeListHome = ({ searchQuery }) => {
                 cursor: 'pointer'
               }}
             />
+            <i
+              className="fa-solid fa-comment"
+              onClick={() => handleChatOpen(adoptee)}
+              style={{
+                color: 'blue',
+                cursor: 'pointer',
+                marginLeft: '10px'
+              }}
+            />
           </div>
         ))
       ) : (
         <p>No adoptees found</p>
       )}
+      {selectedAdoptee && <Chat receiverId={selectedAdoptee.id} />}
     </div>
   );
 };
 
-
 AdopteeListHome.propTypes = {
-  searchQuery: PropTypes.string.isRequired, 
+  searchQuery: PropTypes.string.isRequired,
+  setReceiverId: PropTypes.func.isRequired,
 };
 
 export default AdopteeListHome;
+
+
