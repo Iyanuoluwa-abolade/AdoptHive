@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from 'react';
 import { useSocket } from '../SocketContext';
 import { UserContext } from '../UserContext';
@@ -31,7 +32,7 @@ function Chat({ receiverId }) {
   const handleSendMessage = () => {
     if (message.trim() && socket && user && receiverId) {
       const room = [user.id, receiverId].sort().join('-');
-     
+
       socket.emit('sendMessage', {
         senderId: user.id,
         receiverId,
